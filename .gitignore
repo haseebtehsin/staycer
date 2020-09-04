@@ -252,4 +252,7 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Static react artifact
+staycer/frontend/static/frontend/main.js
+
 # End of https://www.toptal.com/developers/gitignore/api/django,node
