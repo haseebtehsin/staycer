@@ -1,0 +1,36 @@
+{
+  "name": "staycer",
+  "version": "1.0.0",
+  "description": "A web app that helps tracking certifications and training",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch ./staycer/frontend/src/index.js --output ./staycer/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./staycer/frontend/src/index.js --output ./staycer/frontend/static/frontend/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haseebtehsin/staycer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haseebtehsin/staycer/issues"
+  },
+  "homepage": "https://github.com/haseebtehsin/staycer#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
