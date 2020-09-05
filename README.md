@@ -23,6 +23,7 @@ Install following
 - clone repo and cd
 - run `pipenv shell` to create virtual environment
 - run `pipenv install` to install packages
+- run `npm install` to install node packages for frontend
 
 ## Development Guide
 
