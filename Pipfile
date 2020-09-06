@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
+django-phone-field = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.8"
