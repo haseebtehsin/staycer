@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'frontend',
     'phone_field',
     'django_filters',
-    'register',
+    'user',
     'certificate',
 ]
 
@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'register.User'
+AUTH_USER_MODEL = 'user.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)

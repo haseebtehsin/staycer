@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions
 from certificate.models import Certificate, Certification
 from .serializer import CertificateSerializer, CertificationSerializer
 import django_filters.rest_framework
+from .filters import CertificationFilter
 
 
 class CertificateViewSet(viewsets.ModelViewSet):
@@ -19,4 +20,4 @@ class CertificationViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = CertificationSerializer
-    filterset_fields = '__all__'
+    filter_class = CertificationFilter
