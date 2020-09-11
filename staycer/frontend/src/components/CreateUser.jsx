@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
 import http from "../services/httpService";
-const apiHost = "http://127.0.0.1:8000/";
-const userEndPoint = "api/v1/users/";
+import apiEndPoints from "../config/apiEndPoints";
 
 class CreateUser extends Form {
   constructor(props) {
@@ -35,7 +34,7 @@ class CreateUser extends Form {
     console.log(this.state.data);
 
     try {
-      const response = await http.post(userEndPoint, {
+      const response = await http.post(apiEndPoints.usersV1(), {
         email: this.state.data.email,
         password: "Password@123",
         first_name: this.state.data.first_name,

@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import EmployeeList from "./EmployeeTable";
 import SearchBar from "../common/SearchBar/SearchBar";
 import http from "../../services/httpService";
-
-const apiHost = "http://127.0.0.1:8000/";
-const userEndPoint = "api/v1/users/";
+import apiEndPoints from "../../config/apiEndPoints";
 
 //TODO: Handle Errors
 //TODO: Get api constants from one source
@@ -18,7 +16,7 @@ class EmployeeLookUp extends Component {
   };
 
   async fetchEmployees(pageNumber, pageSize, searchText = null) {
-    let endpoint = new URL(`${apiHost}${userEndPoint}`);
+    let endpoint = new URL(apiEndPoints.usersV1());
     if (searchText) {
       endpoint.searchParams.append("search", searchText);
     }
