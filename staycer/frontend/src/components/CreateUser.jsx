@@ -30,9 +30,6 @@ class CreateUser extends Form {
   }
 
   doSubmit = async () => {
-    // const { data } = this.state;
-    console.log(this.state.data);
-
     try {
       const response = await http.post(apiEndPoints.usersV1(), {
         email: this.state.data.email,
@@ -51,7 +48,6 @@ class CreateUser extends Form {
   };
 
   render() {
-    console.log(this.state.errors);
     return (
       <div>
         <h3>Create User</h3>
