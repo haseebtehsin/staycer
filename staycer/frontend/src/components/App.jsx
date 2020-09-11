@@ -16,7 +16,7 @@ class App extends Component {
               <Route path="/employees" component={EmployeeView} />
               <Route path="/schedule" />
               <Route path="/projects" />
-              <Redirect to="/employees" />
+              <Redirect to="/" />
             </Switch>
           </div>
         </div>
