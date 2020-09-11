@@ -8,7 +8,7 @@ class SideNavBar extends Component {
       {
         mainItem: "Employees",
         subItems: [],
-        isActive: true,
+        isActive: false,
         routerLink: "/employees",
       },
       {

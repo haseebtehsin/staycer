@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 function EmployeeItem({ employee }) {
   return (
@@ -9,6 +10,13 @@ function EmployeeItem({ employee }) {
         <td>{employee.email}</td>
         <td>Otto</td>
         <td>@mdo</td>
+        <td>
+          <NavLink to={`/employees/${employee.id}`}>
+            <button type="button" className="btn btn-info">
+              Details
+            </button>
+          </NavLink>
+        </td>
       </tr>
     </React.Fragment>
   );

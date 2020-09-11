@@ -19,6 +19,7 @@ function EmployeeTable({
             <th scope="col">Email</th>
             <th scope="col">Hard Code 1</th>
             <th scope="col">Hard Code 2</th>
+            <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>

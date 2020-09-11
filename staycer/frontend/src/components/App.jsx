@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import EmployeeView from "./Views/EmployeeView";
+import Employee from "./Views/Employee/Employee";
 import SideNavBar from "./SideNavBar/SideNavBar";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
@@ -13,7 +13,7 @@ class App extends Component {
           </div>
           <div className="col-9">
             <Switch>
-              <Route path="/employees" component={EmployeeView} />
+              <Route path="/employees" component={Employee} />
               <Route path="/schedule" />
               <Route path="/projects" />
               <Redirect to="/" />

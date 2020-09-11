@@ -16,7 +16,7 @@ class EmployeeLookUp extends Component {
   };
 
   async fetchEmployees(pageNumber, pageSize, searchText = null) {
-    let endpoint = new URL(apiEndPoints.usersV1());
+    let endpoint = new URL(apiEndPoints.usersCollection());
     if (searchText) {
       endpoint.searchParams.append("search", searchText);
     }
