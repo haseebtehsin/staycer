@@ -1,15 +1,28 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import CreateUser from "./CreateUser";
+import EmployeeView from "./Views/EmployeeView";
+import SideNavBar from "./SideNavBar/SideNavBar";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <CreateUser />
-      </div>
+      <React.Fragment>
+        <div className="row ">
+          <div className="col-3">
+            <SideNavBar />
+          </div>
+          <div className="col-9">
+            <Switch>
+              <Route path="/employees" component={EmployeeView} />
+              <Route path="/schedule" />
+              <Route path="/projects" />
+              <Redirect to="/" />
+            </Switch>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default App;
