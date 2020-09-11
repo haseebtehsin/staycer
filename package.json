@@ -20,16 +20,25 @@
   "homepage": "https://github.com/haseebtehsin/staycer#readme",
   "devDependencies": {
     "@babel/core": "^7.11.5",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
+    "babel-plugin-react-css-modules": "^5.2.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "css-loader": "^2.1.1",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.20",
+    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.2.0",
+    "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "prop-types": "^15.7.2",
+    "@babel/runtime": "^7.11.2",
+    "axios": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
