@@ -1,20 +1,7 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
-import axios from "axios";
-axios.interceptors.response.use(null, (error) => {
-  const unexpectedError =
-    error.response &&
-    error.response.status >= 400 &&
-    error.response.status < 500;
-  if (!unexpectedError) {
-    console.log("Logging the error", error);
-    alert("An unexpected error occured");
-  }
-
-  return Promise.reject(error);
-});
-
+import http from "../services/httpService";
 const apiHost = "http://127.0.0.1:8000/";
 const userEndPoint = "api/v1/users/";
 
@@ -48,7 +35,7 @@ class CreateUser extends Form {
     console.log(this.state.data);
 
     try {
-      const response = await axios.post(userEndPoint, {
+      const response = await http.post(userEndPoint, {
         email: this.state.data.email,
         password: "Password@123",
         first_name: this.state.data.first_name,

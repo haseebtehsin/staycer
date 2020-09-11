@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 import EmployeeList from "./EmployeeTable";
 import SearchBar from "../common/SearchBar/SearchBar";
+import http from "../../services/httpService";
 
 const apiHost = "http://127.0.0.1:8000/";
 const userEndPoint = "api/v1/users/";
@@ -25,7 +25,7 @@ class EmployeeLookUp extends Component {
     const offset = pageNumber === 1 ? 0 : pageNumber;
     endpoint.searchParams.append("offset", offset);
     endpoint.searchParams.append("limit", pageSize);
-    const response = await axios.get(endpoint.toString());
+    const response = await http.get(endpoint.toString());
     this.setState({
       employeeList: response.data.results,
       totalCount: response.data.count,
