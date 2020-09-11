@@ -27,19 +27,19 @@
     "babel-plugin-react-css-modules": "^5.2.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^2.1.1",
-    "lodash": "^4.17.20",
-    "react-router-dom": "^5.2.0",
+    "@babel/runtime": "^7.11.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
     "axios": "^0.20.0",
     "joi-browser": "^13.4.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "lodash": "^4.17.20",
+    "react-router-dom": "^5.2.0"
   }
 }
