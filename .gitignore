@@ -253,6 +253,6 @@ dist
 .vscode-test
 
 # Static react artifact
-# staycer/frontend/static/frontend/main.js
+staycer/frontend/static/frontend/*
 
 # End of https://www.toptal.com/developers/gitignore/api/django,node
