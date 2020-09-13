@@ -9,16 +9,12 @@ class CreateEmployee extends Form {
     super(props);
     this.state = {
       data: {
-        first_name: "",
-        last_name: "",
         email: "",
       },
       errors: {},
     };
 
     this.schema = {
-      first_name: Joi.string().required().label("First Name"),
-      last_name: Joi.string().required().label("Last Name"),
       email: Joi.string()
         .email({ tlds: { allow: false } })
         .required()
@@ -31,13 +27,15 @@ class CreateEmployee extends Form {
 
   doSubmit = async () => {
     try {
+      // TODO: Remove the hard code role. Hard coding role for now
+      // TODO: Get company from the HR employee it self rather than
+      // hardcoding
+      // TODO: Remove the hard coded password and generate it on BE
       const response = await http.post(apiEndPoints.usersCollection(), {
         email: this.state.data.email,
         password: "Password@123",
-        first_name: this.state.data.first_name,
-        last_name: this.state.data.last_name,
+        role: "WK",
         company: 1,
-        profile: {},
       });
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -54,8 +52,6 @@ class CreateEmployee extends Form {
         <h3>Create User</h3>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
-          {this.renderInput("first_name", "First Name")}
-          {this.renderInput("last_name", "Last Name")}
           {this.renderButton("Create")}
         </form>
       </div>

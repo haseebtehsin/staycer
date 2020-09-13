@@ -10,8 +10,8 @@ class EmployeeEdit extends Form {
     super(props);
     this.state = {
       data: {
-        first_name: props.employee.first_name,
-        last_name: props.employee.last_name,
+        first_name: props.employee.profile.first_name,
+        last_name: props.employee.profile.last_name,
       },
       errors: {},
     };
@@ -27,18 +27,22 @@ class EmployeeEdit extends Form {
 
   doSubmit = async () => {
     const { employee } = this.props;
-    const updatedEmployee = {
+    const updatedProfile = {
       first_name: this.state.data.first_name,
       last_name: this.state.data.last_name,
-      company: 1,
+      picture: this.state.data.picture,
     };
+    console.log(updatedProfile);
     try {
       const response = await http.patch(
-        apiEndPoints.usersResource(employee.id),
-        updatedEmployee
+        apiEndPoints.usersProfileResource(employee.id),
+        updatedProfile
       );
+
       if (response.status === 200) {
-        this.props.updateEmployee(_.merge(employee, updatedEmployee));
+        this.props.updateEmployee(
+          _.merge(employee, { profile: updatedProfile })
+        );
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -50,13 +54,13 @@ class EmployeeEdit extends Form {
   };
 
   render() {
-    const { employee, setEdit } = this.props;
+    const { setEdit } = this.props;
     return (
       <div>
         <h3>Update User</h3>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("first_name", "First Name", employee.first_name)}
-          {this.renderInput("last_name", "Last Name", employee.last_name)}
+          {this.renderInput("first_name", "First Name")}
+          {this.renderInput("last_name", "Last Name")}
           {this.renderButton("Update")}
         </form>
         <button

@@ -19,7 +19,7 @@ function CertificationTable({
             <th scope="col">Issue Date</th>
             <th scope="col">Exipiry Date</th>
             <th scope="col">Validated</th>
-            <th scope="col">Details</th>
+            <th scope="col">Picture</th>
           </tr>
         </thead>
         <tbody>

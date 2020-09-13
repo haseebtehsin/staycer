@@ -65,7 +65,7 @@ class Form extends Component {
         label={label}
         onChange={this.handleChange}
         error={errors[name]}
-        type="text"
+        type={type}
       />
     );
   }

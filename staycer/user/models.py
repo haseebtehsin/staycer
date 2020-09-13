@@ -67,8 +67,10 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     HUMAN_RESOURCE = "HR"
+    WORKER = "WK"
     ROLE_CHOICES = (
         (HUMAN_RESOURCE, 'Human_Resource'),
+        (WORKER, 'Worker'),
     )
     role = models.CharField(max_length=2,
                             choices=ROLE_CHOICES,
@@ -76,8 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                             blank=True)
     # password field supplied by AbstractBaseUser
     # last_login field supplied by AbstractBaseUser
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     email = models.EmailField(
         verbose_name=_('email address'), max_length=255, unique=True
@@ -135,6 +136,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     phone = PhoneField(blank=True, help_text='Contact phone number')
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True)
+    picture = models.ImageField(max_length=255, null=True, blank=True)

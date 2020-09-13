@@ -10,9 +10,7 @@ function CertificationItem({ certification }) {
         <td>{certification.expiry_date}</td>
         <td>{certification.validated ? "Yes" : "No"}</td>
         <td>
-          <button type="button" className="btn btn-info">
-            Details
-          </button>
+          <img src={certification.picture} width="50" height="50"></img>
         </td>
       </tr>
     </React.Fragment>
