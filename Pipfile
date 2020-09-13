@@ -10,6 +10,7 @@ django = "*"
 djangorestframework = "*"
 django-phone-field = "*"
 django-filter = "*"
+drf-flex-fields = "*"
 
 [requires]
 python_version = "3.8"

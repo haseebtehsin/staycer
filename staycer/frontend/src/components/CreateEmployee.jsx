@@ -37,6 +37,7 @@ class CreateEmployee extends Form {
         first_name: this.state.data.first_name,
         last_name: this.state.data.last_name,
         company: 1,
+        profile: {},
       });
     } catch (error) {
       if (error.response && error.response.status === 400) {

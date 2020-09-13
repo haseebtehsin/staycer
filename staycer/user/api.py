@@ -11,6 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter,
-                       django_filters.rest_framework.DjangoFilterBackend]
+                       django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['date_joined', 'email']
     search_fields = ['email']
     filterset_fields = '__all__'

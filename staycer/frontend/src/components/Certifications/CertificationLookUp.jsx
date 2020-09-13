@@ -1,51 +1,46 @@
 import React, { Component } from "react";
-import EmployeeList from "./EmployeeTable";
-import SearchBar from "../common/SearchBar/SearchBar";
+import CertificationTable from "./CertificationTable";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
+import PropTypes from "prop-types";
 
 //TODO: Handle Errors
 //TODO: Get api constants from one source
 //TODO: Add 'loading' when fetching data
-class EmployeeLookUp extends Component {
+class CertificationLookUp extends Component {
   state = {
-    employeeList: [],
+    certificationList: [],
     currentPage: 1,
-    pageSize: 6,
+    pageSize: 2,
     totalCount: 1,
   };
 
-  async fetchEmployees(pageNumber, pageSize, searchText = null) {
-    let endpoint = new URL(apiEndPoints.usersCollection());
-    if (searchText) {
-      endpoint.searchParams.append("search", searchText);
-    }
+  async fetchCertifications(userId, pageNumber, pageSize) {
+    let endpoint = new URL(apiEndPoints.userCertificationCollection(userId));
     const offset = pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
     endpoint.searchParams.append("offset", offset);
     endpoint.searchParams.append("limit", pageSize);
-    endpoint.searchParams.append("ordering", "-date_joined");
+    endpoint.searchParams.append("expand", "certificate");
     const response = await http.get(endpoint.toString());
     this.setState({
-      employeeList: response.data.results,
+      certificationList: response.data.results,
       totalCount: response.data.count,
     });
   }
 
-  onSearch = (searchText) => {
-    this.setState({ currentPage: 1 });
-    this.fetchEmployees(1, this.state.pageSize, searchText);
-  };
-
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
-    this.fetchEmployees(page, this.state.pageSize, null);
+    const { employeeId } = this.props;
+    this.fetchCertifications(employeeId, page, this.state.pageSize);
   };
 
   componentDidMount() {
-    this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
+    const { employeeId } = this.props;
+    const { currentPage: pageNumber, pageSize } = this.state;
+    this.fetchCertifications(employeeId, pageNumber, pageSize);
   }
 
-  renderEmptyEmployee() {
+  renderEmptyCertification() {
     return (
       <div>
         <i className="fa fa-5x  fa-search-minus"></i>
@@ -53,16 +48,16 @@ class EmployeeLookUp extends Component {
     );
   }
 
-  renderEmployeeList = (
-    employees,
+  renderCertificationList = (
+    certifications,
     totalCount,
     handlePageChange,
     currentPage,
     pageSize
   ) => {
     return (
-      <EmployeeList
-        employees={employees}
+      <CertificationTable
+        certifications={certifications}
         totalCount={totalCount}
         handlePageChange={handlePageChange}
         currentPage={currentPage}
@@ -73,26 +68,29 @@ class EmployeeLookUp extends Component {
 
   render() {
     const {
-      employeeList: employees,
+      certificationList: certifications,
       pageSize,
       currentPage,
       totalCount,
     } = this.state;
     return (
       <React.Fragment>
-        <SearchBar onSearch={this.onSearch} />
-        {employees.length > 0
-          ? this.renderEmployeeList(
-              employees,
+        {certifications.length > 0
+          ? this.renderCertificationList(
+              certifications,
               totalCount,
               this.handlePageChange,
               currentPage,
               pageSize
             )
-          : this.renderEmptyEmployee()}
+          : this.renderEmptyCertification()}
       </React.Fragment>
     );
   }
 }
 
-export default EmployeeLookUp;
+CertificationLookUp.propTypes = {
+  employeeId: PropTypes.number.isRequired,
+};
+
+export default CertificationLookUp;
