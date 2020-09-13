@@ -3,17 +3,8 @@ import { formatDate } from "../../../../utils/date";
 import apiEndPoints from "../../../config/apiEndPoints";
 import http from "../../../services/httpService";
 const EmployeeInfo = ({ employee, setEdit, updateEmployeePicture }) => {
-  const [picture, updatePicture] = useState(null);
-  useEffect(() => {}, [picture]);
-
-  const onFileChange = useCallback(
-    (event) => {
-      updatePicture(event.target.files[0]);
-    },
-    [picture]
-  );
-
-  const onFileUpload = useCallback(async () => {
+  const onFileChange = useCallback(async (event) => {
+    const picture = event.target.files[0];
     if (!picture) return;
     const formData = new FormData();
     formData.append("picture", picture, picture.name);
@@ -24,7 +15,7 @@ const EmployeeInfo = ({ employee, setEdit, updateEmployeePicture }) => {
     if (response.status === 200) {
       updateEmployeePicture(response.data.picture);
     }
-  }, [picture]);
+  });
 
   return (
     <React.Fragment>
@@ -33,9 +24,7 @@ const EmployeeInfo = ({ employee, setEdit, updateEmployeePicture }) => {
       <div className="row">
         <div className="col-6"></div>
         <div className="col-6">
-          <h3>Upload Image</h3>
           <input type="file" onChange={onFileChange} />
-          <button onClick={onFileUpload}>Upload!</button>
         </div>
       </div>
       <div className="row">
