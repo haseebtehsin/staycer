@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from certificate.models import Certificate, Certification
 from user.models import User
+from rest_flex_fields import FlexFieldsModelSerializer
 
 
 class CertificateSerializer (serializers.ModelSerializer):
@@ -16,9 +17,11 @@ class UserSerializer (serializers.ModelSerializer):
         fields = ('id', 'email', 'first_name', 'last_name')
 
 
-class CertificationSerializer (serializers.ModelSerializer):
-    # user = UserSerializer()
+class CertificationSerializer (FlexFieldsModelSerializer):
 
     class Meta:
         model = Certification
         fields = '__all__'
+        expandable_fields = {
+            'certificate': (CertificateSerializer)
+        }

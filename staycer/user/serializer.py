@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from user.models import User, Company, Address
+from user.models import User, Profile
 from certificate.models import Certification
+from rest_flex_fields import FlexFieldsModelSerializer
 
 
 class UserCertificationsSerializer (serializers.ModelSerializer):
@@ -10,12 +11,25 @@ class UserCertificationsSerializer (serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer (serializers.ModelSerializer):
-    certifications = UserCertificationsSerializer(
-        many=True, required=False, allow_null=True)
+class UserProfle (serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+
+class UserSerializer (FlexFieldsModelSerializer):
 
     class Meta:
         model = User
         fields = '__all__'
         write_only_fields = ['password']
-        read_only_fields = ['certifications']
+        expandable_fields = {
+            'certifications': (UserCertificationsSerializer),
+            'profile': (UserProfle)
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create(**validated_data)
+        Profile.objects.create(user=user)
+        return user

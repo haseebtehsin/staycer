@@ -15,3 +15,4 @@ class Certification(models.Model):
     issue_date = models.DateField()
     expiry_date = models.DateField()
     validated = models.BooleanField(default=False)
+    picture = models.ImageField(max_length=255, null=True, blank=True)

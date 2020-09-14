@@ -16,3 +16,5 @@ class CertificationFilter(django_filters.FilterSet):
     class Meta:
         model = Certification
         fields = '__all__'
+        # since filters do not support Image field, we need to explicitly exclude them
+        exclude = ['picture']

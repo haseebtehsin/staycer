@@ -43,7 +43,7 @@ class SideNavBar extends Component {
         <div styleName="wrapper">
           <nav styleName="sidebar">
             <div>
-              <h3>Bootstrap Sidebar</h3>
+              <h3>Staycer Sidebar</h3>
             </div>
             <ul className="list-unstyled components">
               {navItems.map((navItem) => (

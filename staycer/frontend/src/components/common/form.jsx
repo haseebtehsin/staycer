@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Joi, { schema } from "joi-browser";
 import Input from "./input";
 class Form extends Component {
-  state = { data: {}, errors: {} };
+  state = { data: {}, errors: {}, pictureFile: null };
   validate = () => {
     const options = {
       abortEarly: false,
@@ -39,12 +39,21 @@ class Form extends Component {
   }
 
   handleChange(e) {
+    console.log("hangle change ran");
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(e.target);
     if (errorMessage) errors[e.target.name] = errorMessage;
     else delete errors[e.target.name];
     const data = { ...this.state.data };
-    data[e.target.name] = e.target.value;
+    const targetType = e.target.type;
+    let value = null;
+    if (targetType === "checkbox") {
+      value = e.target.checked;
+    } else if (targetType === "file") {
+      const picture = e.target.files[0];
+      this.setState({ ...this.state, pictureFile: picture });
+    } else value = e.target.value;
+    data[e.target.name] = value;
     this.setState({ data, errors });
   }
 
@@ -65,19 +74,6 @@ class Form extends Component {
         label={label}
         onChange={this.handleChange}
         error={errors[name]}
-        type="text"
-      />
-    );
-  }
-  renderEmail(name, label) {
-    return (
-      <Input
-        name={name}
-        value={data[name]}
-        label={label}
-        onChange={this.handleChange}
-        error={errors[name]}
-        type="email"
       />
     );
   }
