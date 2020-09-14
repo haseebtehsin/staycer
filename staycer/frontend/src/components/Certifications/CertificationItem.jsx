@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import ImageModal from "../common/ImageModal/ImageModal";
 
 function CertificationItem({ certification }) {
   return (
@@ -10,7 +11,9 @@ function CertificationItem({ certification }) {
         <td>{certification.expiry_date}</td>
         <td>{certification.validated ? "Yes" : "No"}</td>
         <td>
-          <img src={certification.picture} width="50" height="50"></img>
+          <div style={{ width: "50px", height: "50px" }}>
+            <ImageModal imageUrl={certification.picture} />
+          </div>
         </td>
       </tr>
     </React.Fragment>

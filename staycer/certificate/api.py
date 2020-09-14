@@ -7,6 +7,8 @@ from .filters import CertificationFilter
 
 
 class CertificateViewSet(viewsets.ModelViewSet):
+    # TODO: allow the ability to get all certificates
+    # so that we are not limited by page size only
     queryset = Certificate.objects.all()
     permission_classes = [
         permissions.AllowAny

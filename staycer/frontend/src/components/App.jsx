@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Employee from "./Views/Employee/Employee";
 import SideNavBar from "./SideNavBar/SideNavBar";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
   render() {

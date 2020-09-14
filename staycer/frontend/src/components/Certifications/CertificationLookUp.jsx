@@ -11,7 +11,7 @@ class CertificationLookUp extends Component {
   state = {
     certificationList: [],
     currentPage: 1,
-    pageSize: 2,
+    pageSize: 8,
     totalCount: 1,
   };
 
@@ -22,10 +22,12 @@ class CertificationLookUp extends Component {
     endpoint.searchParams.append("limit", pageSize);
     endpoint.searchParams.append("expand", "certificate");
     const response = await http.get(endpoint.toString());
-    this.setState({
-      certificationList: response.data.results,
-      totalCount: response.data.count,
-    });
+    if (response.status === 200) {
+      this.setState({
+        certificationList: response.data.results,
+        totalCount: response.data.count,
+      });
+    }
   }
 
   handlePageChange = (page) => {
@@ -34,12 +36,23 @@ class CertificationLookUp extends Component {
     this.fetchCertifications(employeeId, page, this.state.pageSize);
   };
 
-  componentDidMount() {
+  updateCertifications = () => {
     const { employeeId } = this.props;
     const { currentPage: pageNumber, pageSize } = this.state;
     this.fetchCertifications(employeeId, pageNumber, pageSize);
+  };
+
+  componentDidMount() {
+    this.updateCertifications();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { newCertificationAdded, handleNewCertificationAdded } = this.props;
+    if (newCertificationAdded) {
+      this.updateCertifications();
+      handleNewCertificationAdded(false);
+    }
+  }
   renderEmptyCertification() {
     return (
       <div>

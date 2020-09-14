@@ -11,11 +11,12 @@ class EmployeeLookUp extends Component {
   state = {
     employeeList: [],
     currentPage: 1,
-    pageSize: 6,
+    pageSize: 5,
     totalCount: 1,
   };
 
   async fetchEmployees(pageNumber, pageSize, searchText = null) {
+    const { handleNewEmployeeAdded } = this.props;
     let endpoint = new URL(apiEndPoints.usersCollection());
     if (searchText) {
       endpoint.searchParams.append("search", searchText);
@@ -25,10 +26,12 @@ class EmployeeLookUp extends Component {
     endpoint.searchParams.append("limit", pageSize);
     endpoint.searchParams.append("ordering", "-date_joined");
     const response = await http.get(endpoint.toString());
-    this.setState({
-      employeeList: response.data.results,
-      totalCount: response.data.count,
-    });
+    if (response.status === 200) {
+      this.setState({
+        employeeList: response.data.results,
+        totalCount: response.data.count,
+      });
+    }
   }
 
   onSearch = (searchText) => {
@@ -43,6 +46,16 @@ class EmployeeLookUp extends Component {
 
   componentDidMount() {
     this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { newEmployeeAdded, handleNewEmployeeAdded } = this.props;
+    // console.log("new add");
+    // console.log(newEmployeeAdded);
+    if (newEmployeeAdded) {
+      this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
+      handleNewEmployeeAdded(false);
+    }
   }
 
   renderEmptyEmployee() {

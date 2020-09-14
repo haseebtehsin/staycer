@@ -6,6 +6,7 @@ const apiEndPoints = {
   usersProfileResource: (id) => `${baseURL}${apiVersion}users/${id}/profile/`,
   userCertificationCollection: (userId) =>
     `${baseURL}${apiVersion}users/${userId}/certifications/`,
+  certificatesCollection: () => `${baseURL}${apiVersion}certificates/`,
 };
 
 export default apiEndPoints;

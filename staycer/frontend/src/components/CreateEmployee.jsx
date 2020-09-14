@@ -26,6 +26,8 @@ class CreateEmployee extends Form {
   }
 
   doSubmit = async () => {
+    const { handleNewEmployeeAdded } = this.props;
+    console.log(this.props);
     try {
       // TODO: Remove the hard code role. Hard coding role for now
       // TODO: Get company from the HR employee it self rather than
@@ -37,6 +39,10 @@ class CreateEmployee extends Form {
         role: "WK",
         company: 1,
       });
+      if (response.status === 201) {
+        console.log("changing new employee added");
+        handleNewEmployeeAdded(true);
+      }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         const errors = { ...this.state.errors };
