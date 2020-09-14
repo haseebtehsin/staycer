@@ -3,6 +3,9 @@ import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
+import withModal from "./common/withModal";
+import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 class CreateEmployee extends Form {
   constructor(props) {
@@ -38,6 +41,12 @@ class CreateEmployee extends Form {
         last_name: this.state.data.last_name,
         company: 1,
       });
+      console.log(response);
+      if (response.status === 201) {
+        toast("User Successfully Created");
+        this.props.handleModalClose();
+        console.log("Created");
+      }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -50,7 +59,6 @@ class CreateEmployee extends Form {
   render() {
     return (
       <div>
-        <h3>Create User</h3>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
           {this.renderInput("first_name", "First Name")}
@@ -62,4 +70,4 @@ class CreateEmployee extends Form {
   }
 }
 
-export default CreateEmployee;
+export default withModal(CreateEmployee, "Create New Employee");
