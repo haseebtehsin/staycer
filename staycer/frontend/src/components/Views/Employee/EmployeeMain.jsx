@@ -7,7 +7,7 @@ const EmployeeMain = () => {
   return (
     <React.Fragment>
       <div className="row">
-        <CreateEmployee handleNewEmployeeAdded={handleNewEmployeeAdded} />
+        {/* <CreateEmployee handleNewEmployeeAdded={handleNewEmployeeAdded} /> */}
       </div>
       <div className="row">
         <EmployeeLookup

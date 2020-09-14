@@ -3,6 +3,7 @@ import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
+import withModal from "./common/withModal";
 
 class CreateEmployee extends Form {
   constructor(props) {
@@ -39,8 +40,9 @@ class CreateEmployee extends Form {
         role: "WK",
         company: 1,
       });
+      console.log(response);
       if (response.status === 201) {
-        console.log("changing new employee added");
+        this.props.handleModalClose();
         handleNewEmployeeAdded(true);
       }
     } catch (error) {
@@ -55,7 +57,6 @@ class CreateEmployee extends Form {
   render() {
     return (
       <div>
-        <h3>Create User</h3>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
           {this.renderButton("Create")}
@@ -65,4 +66,4 @@ class CreateEmployee extends Form {
   }
 }
 
-export default CreateEmployee;
+export default withModal(CreateEmployee, "Create New Employee");
