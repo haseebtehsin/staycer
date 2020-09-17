@@ -23,6 +23,11 @@ module.exports = {
           },
         ],
       },
+      {
+        include: "/src/static/images",
+        test: /\.(jpg|png)$/,
+        use: ["file-loader"],
+      },
     ],
   },
   resolve: {

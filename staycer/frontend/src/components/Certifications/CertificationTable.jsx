@@ -9,34 +9,17 @@ function CertificationTable({
   pageSize,
   currentPage,
   totalCount,
+  employeeId,
 }) {
   return (
     <React.Fragment>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Cerification Name</th>
-            <th scope="col">Issue Date</th>
-            <th scope="col">Exipiry Date</th>
-            <th scope="col">Validated</th>
-            <th scope="col">Picture</th>
-          </tr>
-        </thead>
-        <tbody>
-          {certifications.map((certification) => (
-            <CertificationItem
-              key={certification.id}
-              certification={certification}
-            />
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        itemsCount={totalCount}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
+      {certifications.map((certification) => (
+        <CertificationItem
+          key={certification.id}
+          certification={certification}
+          employeeId={employeeId}
+        />
+      ))}
     </React.Fragment>
   );
 }

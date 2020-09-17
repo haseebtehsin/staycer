@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ImageModal.css";
 import Modal from "react-bootstrap/Modal";
 
-const ImageModal = ({ imageUrl }) => {
+const ImageModal = ({ imageUrl, width, height }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);

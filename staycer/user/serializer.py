@@ -11,7 +11,7 @@ class UserCertificationsSerializer (serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserProfle (serializers.ModelSerializer):
+class UserProfile (serializers.ModelSerializer):
 
     class Meta:
         model = Profile
@@ -19,6 +19,8 @@ class UserProfle (serializers.ModelSerializer):
 
 
 class UserSerializer (FlexFieldsModelSerializer):
+    profile = UserProfile()
+    total_certifications = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = User
@@ -26,10 +28,11 @@ class UserSerializer (FlexFieldsModelSerializer):
         write_only_fields = ['password']
         expandable_fields = {
             'certifications': (UserCertificationsSerializer),
-            'profile': (UserProfle)
+            'profile': (UserProfile)
         }
 
     def create(self, validated_data):
+        profile_data = validated_data.pop('profile')
         user = User.objects.create(**validated_data)
-        Profile.objects.create(user=user)
+        Profile.objects.create(user=user, **profile_data)
         return user

@@ -1,11 +1,14 @@
 import React, { useCallback } from "react";
 import http from "../../../services/httpService";
+import "./EditableImage.css";
 
 const EditableImage = ({
   urlFunc,
   updatePictureUrl,
   pictureName,
   pictureUrl,
+  width,
+  height,
 }) => {
   const onFileChange = useCallback(async (event) => {
     const picture = event.target.files[0];
@@ -19,17 +22,7 @@ const EditableImage = ({
   });
   return (
     <div>
-      {/* <div>
-        <input
-          type="file"
-          onChange={onFileChange}
-          // style={{ display: "None" }}
-        />
-      </div> */}
       <form>
-        <label htmlFor="file-upload" className="custom-file-upload">
-          <i className="fa fa-cloud-upload"></i> Upload Image
-        </label>
         <input
           id="file-upload"
           name="upload_cont_img"
@@ -38,12 +31,19 @@ const EditableImage = ({
           style={{ display: "none" }}
         />
       </form>
-      <img
-        src={pictureUrl}
-        className="rounded-circle"
-        width="200"
-        height="200"
-      ></img>
+      <div styleName="containerImage">
+        <img
+          src={pictureUrl}
+          className="rounded-circle"
+          width={width}
+          height={height}
+        ></img>
+        <div>
+          <label htmlFor="file-upload" className="custom-file-upload">
+            <i className="fa fa-cloud-upload"></i> Upload Image
+          </label>
+        </div>
+      </div>
     </div>
   );
 };

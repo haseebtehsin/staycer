@@ -20,6 +20,8 @@ class CreateEmployee extends Form {
         .email({ tlds: { allow: false } })
         .required()
         .label("Email"),
+      firstName: Joi.string().required().label("First Name"),
+      lastName: Joi.string().required().label("Last Name"),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,23 +29,32 @@ class CreateEmployee extends Form {
   }
 
   doSubmit = async () => {
-    const { handleNewEmployeeAdded } = this.props;
-    console.log(this.props);
+    const { updateEmployees } = this.props;
+    const { data } = this.state;
     try {
       // TODO: Remove the hard code role. Hard coding role for now
       // TODO: Get company from the HR employee it self rather than
       // hardcoding
       // TODO: Remove the hard coded password and generate it on BE
-      const response = await http.post(apiEndPoints.usersCollection(), {
-        email: this.state.data.email,
+      const userBasicDetails = {
+        email: data.email,
         password: "Password@123",
         role: "WK",
         company: 1,
-      });
-      console.log(response);
+      };
+      const userProfile = {
+        first_name: data.firstName,
+        last_name: data.lastName,
+      };
+      const newUserData = { ...userBasicDetails, profile: userProfile };
+      const response = await http.post(
+        apiEndPoints.usersCollection(),
+        newUserData
+      );
       if (response.status === 201) {
+        console.log("employee created");
+        updateEmployees();
         this.props.handleModalClose();
-        handleNewEmployeeAdded(true);
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -59,6 +70,8 @@ class CreateEmployee extends Form {
       <div>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
+          {this.renderInput("lastName", "Last Name")}
+          {this.renderInput("firstName", "First Name")}
           {this.renderButton("Create")}
         </form>
       </div>
@@ -66,4 +79,16 @@ class CreateEmployee extends Form {
   }
 }
 
-export default withModal(CreateEmployee, "Create New Employee");
+const CreateButton = ({ handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      type="button"
+      className="btn btn-primary rounded"
+    >
+      <i className="fa fa-plus"> Add Employee</i>
+    </button>
+  );
+};
+
+export default withModal(CreateEmployee, CreateButton, "Add Employee");

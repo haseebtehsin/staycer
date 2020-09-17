@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import EmployeeItem from "./EmployeeItem";
-import Pagination from "../common/Pagination";
+
 import PropTypes from "prop-types";
 
-function EmployeeTable({
-  employees,
-  handlePageChange,
-  pageSize,
-  currentPage,
-  totalCount,
-}) {
+function EmployeeTable({ employees }) {
   return (
     <React.Fragment>
-      <table className="table">
+      <table
+        className="table-striped table-bordered table-sm"
+        cellSpacing="0"
+        width="100%"
+      >
         <thead>
           <tr>
-            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date Joined</th>
+            <th scope="col">Certifications</th>
             <th scope="col">Email</th>
-            <th scope="col">Hard Code 1</th>
-            <th scope="col">Hard Code 2</th>
-            <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
@@ -28,22 +25,12 @@ function EmployeeTable({
           ))}
         </tbody>
       </table>
-      <Pagination
-        itemsCount={totalCount}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
     </React.Fragment>
   );
 }
 
 EmployeeTable.propTypes = {
   employees: PropTypes.array,
-  totalCount: PropTypes.number.isRequired,
-  handlePageChange: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
 };
 
 export default EmployeeTable;

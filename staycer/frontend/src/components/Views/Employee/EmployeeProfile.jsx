@@ -2,18 +2,13 @@ import React, { Component } from "react";
 import apiEndPoints from "../../../config/apiEndPoints";
 import http from "../../../services/httpService";
 import EmployeeInfo from "./EmployeeInfo";
-import EmployeeEdit from "./EmployeeEdit";
-import EmployeeCertifications from "./EmployeeCertifications";
+import CertificationLookUp from "../../Certifications/CertificationLookUp";
+import "./EmployeeProfile.css";
+
 import _ from "lodash";
 
 class EmployeeProfile extends Component {
-  state = { employee: {}, isEdit: false };
-
-  // constructor(props) {
-  //   super(props);
-  //   const id = props.match.params.id;
-  //   this.state.id = id;
-  // }
+  state = { employee: {} };
 
   async fetchEmployee(employeeId) {
     let endpoint = new URL(apiEndPoints.usersResource(employeeId));
@@ -22,25 +17,15 @@ class EmployeeProfile extends Component {
     return response.data;
   }
 
-  async componentDidMount() {
-    const { id: employeeId } = this.props.match.params;
+  updateEmployee = async (employeeId) => {
     const employee = await this.fetchEmployee(employeeId);
     this.setState({ employee: employee });
+  };
+
+  componentDidMount() {
+    const { id: employeeId } = this.props.match.params;
+    this.updateEmployee(employeeId);
   }
-
-  updateEmployee = (updatedEmployee) => {
-    this.setState({ ...this.state, employee: updatedEmployee });
-  };
-
-  setEdit = (isEdit) => {
-    this.setState({ ...this.state, isEdit: isEdit });
-  };
-
-  onFileUpload = (event) => {
-    const { employee } = this.props;
-    // Create an object of formData
-    const formData = new FormData();
-  };
 
   updateEmployeePicture = (newPicture) => {
     const updatedEmployee = {
@@ -51,20 +36,22 @@ class EmployeeProfile extends Component {
   };
 
   render() {
-    const { employee, isEdit } = this.state;
+    const { employee } = this.state;
     if (_.isEmpty(employee)) return null;
     return (
       <React.Fragment>
-        {isEdit ? (
-          <EmployeeEdit employee={employee} setEdit={this.setEdit} />
-        ) : (
+        <div styleName="employeeProfileComponent">
           <EmployeeInfo
             employee={employee}
-            setEdit={this.setEdit}
             updateEmployeePicture={this.updateEmployeePicture}
+            updateEmployee={() => {
+              this.updateEmployee(employee.id);
+            }}
           />
-        )}
-        {<EmployeeCertifications employeeId={employee.id} />}
+        </div>
+        <div styleName="employeeProfileComponent">
+          <CertificationLookUp employeeId={employee.id} />
+        </div>
       </React.Fragment>
     );
   }

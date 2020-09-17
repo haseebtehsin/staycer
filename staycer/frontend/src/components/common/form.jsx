@@ -39,7 +39,6 @@ class Form extends Component {
   }
 
   handleChange(e) {
-    console.log("hangle change ran");
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(e.target);
     if (errorMessage) errors[e.target.name] = errorMessage;
@@ -75,6 +74,35 @@ class Form extends Component {
         onChange={this.handleChange}
         error={errors[name]}
       />
+    );
+  }
+
+  renderCheckBox(name, label) {
+    const { data, errors } = this.state;
+    const value = data[name];
+    const error = errors[name];
+    const isChecked = value ? "checked" : null;
+    return (
+      <div className="form-group">
+        <label htmlFor={name}>{label}</label>
+        <input
+          name={name}
+          id={name}
+          type="checkbox"
+          name={name}
+          value={value}
+          label={label}
+          onChange={this.handleChange}
+          error={errors[name]}
+          className="form-control"
+          checked={isChecked}
+        />
+        {error && (
+          <div className="alert alert-danger" style={{ color: "black" }}>
+            {error}
+          </div>
+        )}
+      </div>
     );
   }
 }

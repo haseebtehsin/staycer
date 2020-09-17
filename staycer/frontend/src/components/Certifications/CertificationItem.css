@@ -1,0 +1,19 @@
+.certificationItem {
+  margin-top: 20px;
+}
+.certificationName {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.certificationDescriptionField {
+  font-size: 90%;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.certificationDescriptionValue {
+  font-size: 15px;
+  display: inline-block;
+  margin-left: 10px;
+}

@@ -3,6 +3,7 @@ import CertificationTable from "./CertificationTable";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import PropTypes from "prop-types";
+import CreateCertification from "../CreateCertification";
 
 //TODO: Handle Errors
 //TODO: Get api constants from one source
@@ -21,6 +22,7 @@ class CertificationLookUp extends Component {
     endpoint.searchParams.append("offset", offset);
     endpoint.searchParams.append("limit", pageSize);
     endpoint.searchParams.append("expand", "certificate");
+    endpoint.searchParams.append("ordering", "-id");
     const response = await http.get(endpoint.toString());
     if (response.status === 200) {
       this.setState({
@@ -46,13 +48,6 @@ class CertificationLookUp extends Component {
     this.updateCertifications();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { newCertificationAdded, handleNewCertificationAdded } = this.props;
-    if (newCertificationAdded) {
-      this.updateCertifications();
-      handleNewCertificationAdded(false);
-    }
-  }
   renderEmptyCertification() {
     return (
       <div>
@@ -66,7 +61,8 @@ class CertificationLookUp extends Component {
     totalCount,
     handlePageChange,
     currentPage,
-    pageSize
+    pageSize,
+    employeeId
   ) => {
     return (
       <CertificationTable
@@ -75,11 +71,13 @@ class CertificationLookUp extends Component {
         handlePageChange={handlePageChange}
         currentPage={currentPage}
         pageSize={pageSize}
+        employeeId={employeeId}
       />
     );
   };
 
   render() {
+    const { employeeId } = this.props;
     const {
       certificationList: certifications,
       pageSize,
@@ -88,13 +86,29 @@ class CertificationLookUp extends Component {
     } = this.state;
     return (
       <React.Fragment>
+        <div className="row">
+          <div className="col">
+            <h2>Certifications</h2>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6 offset-md-6 d-flex justify-content-end">
+            <CreateCertification
+              employeeId={employeeId}
+              updateCertifications={() =>
+                this.fetchCertifications(employeeId, currentPage, pageSize)
+              }
+            />
+          </div>
+        </div>
         {certifications.length > 0
           ? this.renderCertificationList(
               certifications,
               totalCount,
               this.handlePageChange,
               currentPage,
-              pageSize
+              pageSize,
+              employeeId
             )
           : this.renderEmptyCertification()}
       </React.Fragment>
