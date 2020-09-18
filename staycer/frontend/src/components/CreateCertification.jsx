@@ -13,7 +13,7 @@ class CreateCertification extends Form {
       data: {
         issueDate: undefined,
         expiryDate: undefined,
-        validated: true,
+        validated: false,
         certificate: "",
         picture: null,
       },

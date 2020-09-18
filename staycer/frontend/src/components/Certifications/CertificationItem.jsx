@@ -54,6 +54,11 @@ function CertificationItem({
     );
   };
 
+  const emptyCertificationUrl = "/static/emptyCertification.png";
+  const certificationPicture = certification.picture
+    ? certification.picture
+    : emptyCertificationUrl;
+
   return (
     <React.Fragment>
       <div
@@ -61,8 +66,8 @@ function CertificationItem({
         styleName="certificationItem"
       >
         <div className="col-2">
-          <div style={{ width: "200px", height: "120px" }}>
-            <ImageModal imageUrl={certification.picture} />
+          <div styleName="certificationPicture">
+            <ImageModal imageUrl={certificationPicture} />
           </div>
         </div>
         <div className="col-3">

@@ -1,6 +1,7 @@
 .certificationItem {
   margin-top: 20px;
 }
+
 .certificationName {
   font-size: 15px;
   font-weight: 600;
@@ -16,4 +17,10 @@
   font-size: 15px;
   display: inline-block;
   margin-left: 10px;
+}
+
+.certificationPicture {
+  text-align: center;
+  width: "200px";
+  height: "120px";
 }
