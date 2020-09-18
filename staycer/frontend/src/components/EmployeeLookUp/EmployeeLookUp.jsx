@@ -6,7 +6,7 @@ import apiEndPoints from "../../config/apiEndPoints";
 import CreateEmployee from "../CreateEmployee";
 import Pagination from "../common/Pagination";
 import Spinner from "react-bootstrap/Spinner";
-import "./EmployeeLookUp.css";
+import "./EmployeeLookUp.module.css";
 
 //TODO: Handle Errors
 //TODO: Get api constants from one source
@@ -32,7 +32,7 @@ class EmployeeLookUp extends Component {
     this.setFetchingEmployee(true);
     // This line is just to test spinner for development
     // must remove in prod
-    const timeoutResponse = await this.timeout(500);
+    const timeoutResponse = await this.timeout(200);
     let endpoint = new URL(apiEndPoints.usersCollection());
     if (searchText) {
       endpoint.searchParams.append("search", searchText);

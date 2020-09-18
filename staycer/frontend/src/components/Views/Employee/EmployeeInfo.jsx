@@ -4,17 +4,18 @@ import apiEndPoints from "../../../config/apiEndPoints";
 import EditableImage from "../../common/EditableImage/EditableImage";
 import EditEmployee from "../../EditEmployee";
 import { capitalize } from "../../../../utils/utils";
-import "./EmployeeInfo.css";
+import "./EmployeeInfo.module.css";
 
-import defaultAvatar from "../../../static/images/defaultAvatar.png";
+// import defaultAvatar from "../../../static/images/defaultAvatar.png";
 
 const EmployeeInfo = ({ employee, updateEmployeePicture, updateEmployee }) => {
-  // const employeePicture = employee.profile.picture
-  //   ? employee.profile.picture
-  //   : require("../../../static/images/defaultAvatar.png");
   const employeeName = `${capitalize(employee.profile.first_name)} ${capitalize(
     employee.profile.last_name
   )}`;
+  const defaultAvatarUrl = "/static/defaultAvatar.png";
+  const employeePicture = employee.profile.picture
+    ? employee.profile.picture
+    : defaultAvatarUrl;
   return (
     <React.Fragment>
       <div className="row">
@@ -26,7 +27,7 @@ const EmployeeInfo = ({ employee, updateEmployeePicture, updateEmployee }) => {
         urlFunc={apiEndPoints.usersProfileResource(employee.id)}
         pictureName={"picture"}
         updatePictureUrl={updateEmployeePicture}
-        pictureUrl={employee.profile.picture}
+        pictureUrl={employeePicture}
         width="150px"
         height="150px"
       />

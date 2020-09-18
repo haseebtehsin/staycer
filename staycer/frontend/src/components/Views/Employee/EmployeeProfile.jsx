@@ -3,7 +3,7 @@ import apiEndPoints from "../../../config/apiEndPoints";
 import http from "../../../services/httpService";
 import EmployeeInfo from "./EmployeeInfo";
 import CertificationLookUp from "../../Certifications/CertificationLookUp";
-import "./EmployeeProfile.css";
+import "./EmployeeProfile.module.css";
 
 import _ from "lodash";
 

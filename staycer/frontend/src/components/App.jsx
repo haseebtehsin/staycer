@@ -14,8 +14,8 @@ class App extends Component {
             <div className="col-9">
               <Switch>
                 <Route path="/employees" component={Employee} />
+                <Route path="/risk" />
                 <Route path="/schedule" />
-                <Route path="/projects" />
                 <Redirect to="/" />
               </Switch>
             </div>

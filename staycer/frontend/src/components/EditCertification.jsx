@@ -101,7 +101,7 @@ EditCertification.propTypes = {
 const EditButton = ({ handleClick }) => {
   return (
     <button onClick={handleClick} type="button" className="btn btn-primary">
-      <i class="fa fa-edit"></i>
+      <i className="fa fa-edit"></i>
     </button>
   );
 };

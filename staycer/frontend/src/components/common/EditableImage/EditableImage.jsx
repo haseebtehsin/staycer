@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import http from "../../../services/httpService";
-import "./EditableImage.css";
+import "./EditableImage.module.css";
 
 const EditableImage = ({
   urlFunc,

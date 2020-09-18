@@ -4,7 +4,7 @@ import ImageModal from "../common/ImageModal/ImageModal";
 import EditCertification from "../EditCertification";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
-import "./CertificationItem.css";
+import "./CertificationItem.module.css";
 
 function CertificationItem({
   certification: certificationFromProp,
@@ -40,6 +40,20 @@ function CertificationItem({
     return <span className={`badge badge-${badgeClass}`}>{badgeText}</span>;
   };
 
+  const renderCertificationValidated = () => {
+    const isCertificationValidated = certification.validated;
+    const renderIcon = isCertificationValidated
+      ? "check-square"
+      : "times-circle";
+    const iconColor = isCertificationValidated ? "green" : "red";
+    return (
+      <i
+        className={`fa fa-${renderIcon}`}
+        style={{ color: `${iconColor}` }}
+      ></i>
+    );
+  };
+
   return (
     <React.Fragment>
       <div
@@ -72,7 +86,7 @@ function CertificationItem({
           <div>
             <div styleName="certificationDescriptionField">Validated</div>
             <div styleName="certificationDescriptionValue">
-              {certification.validated ? "Yes" : "No"}
+              {renderCertificationValidated()}
             </div>
           </div>
         </div>

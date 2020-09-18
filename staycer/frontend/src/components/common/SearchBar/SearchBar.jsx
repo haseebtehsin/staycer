@@ -1,5 +1,5 @@
 import React, { Component, useCallback } from "react";
-import "./SearchBar.css";
+import "./SearchBar.module.css";
 import PropTypes from "prop-types";
 
 function SearchBar({ onSearch }) {
