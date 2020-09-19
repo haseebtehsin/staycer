@@ -1,17 +1,20 @@
 import React, { Component } from "react";
-import Form from "../../common/form";
+import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
-import http from "../../../services/httpService";
-import apiEndPoints from "../../../config/apiEndPoints";
+import withModal from "./common/withModal";
+import http from "../services/httpService";
+import apiEndPoints from "../config/apiEndPoints";
 import _ from "lodash";
 
 class EmployeeEdit extends Form {
   constructor(props) {
     super(props);
+    const { employee } = props;
     this.state = {
       data: {
-        first_name: props.employee.profile.first_name,
-        last_name: props.employee.profile.last_name,
+        first_name: employee.profile.first_name,
+        last_name: employee.profile.last_name,
+        phone: employee.profile.phone,
       },
       errors: {},
     };
@@ -19,6 +22,7 @@ class EmployeeEdit extends Form {
     this.schema = {
       first_name: Joi.string().label("First Name"),
       last_name: Joi.string().label("Last Name"),
+      phone: Joi.string().label("Phone"),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,13 +30,13 @@ class EmployeeEdit extends Form {
   }
 
   doSubmit = async () => {
-    const { employee } = this.props;
+    const { employee, updateEmployee, handleModalClose } = this.props;
+    const { data } = this.state;
     const updatedProfile = {
-      first_name: this.state.data.first_name,
-      last_name: this.state.data.last_name,
-      picture: this.state.data.picture,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      phone: data.phone,
     };
-    console.log(updatedProfile);
     try {
       const response = await http.patch(
         apiEndPoints.usersProfileResource(employee.id),
@@ -40,9 +44,9 @@ class EmployeeEdit extends Form {
       );
 
       if (response.status === 200) {
-        this.props.updateEmployee(
-          _.merge(employee, { profile: updatedProfile })
-        );
+        console.log("emloyee updated");
+        updateEmployee();
+        handleModalClose();
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -54,24 +58,28 @@ class EmployeeEdit extends Form {
   };
 
   render() {
-    const { setEdit } = this.props;
     return (
       <div>
-        <h3>Update User</h3>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("first_name", "First Name")}
           {this.renderInput("last_name", "Last Name")}
+          {this.renderInput("phone", "phone", "tel")}
           {this.renderButton("Update")}
         </form>
-        <button
-          onClick={() => setEdit(false)}
-          type="button"
-          className="btn btn-info"
-        >
-          Back to Profile
-        </button>
       </div>
     );
   }
 }
-export default EmployeeEdit;
+const EditButton = ({ handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      type="button"
+      className="btn btn-primary rounded"
+    >
+      <i className="fa fa-edit"> Edit </i>
+    </button>
+  );
+};
+
+export default withModal(EmployeeEdit, EditButton, "Edit Employee");

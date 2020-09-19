@@ -4,6 +4,7 @@ import Joi, { schema } from "joi-browser";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
 import PropTypes from "prop-types";
+import withModal from "./common/withModal";
 
 class CreateCertification extends Form {
   constructor(props) {
@@ -12,7 +13,7 @@ class CreateCertification extends Form {
       data: {
         issueDate: undefined,
         expiryDate: undefined,
-        validated: true,
+        validated: false,
         certificate: "",
         picture: null,
       },
@@ -40,6 +41,7 @@ class CreateCertification extends Form {
   }
 
   doSubmit = async () => {
+    const { updateCertifications, handleModalClose } = this.props;
     const { data, pictureFile } = this.state;
     let newCertificationData = {
       issue_date: data.issueDate,
@@ -56,15 +58,16 @@ class CreateCertification extends Form {
       newCertificationData = formData;
     }
 
-    const { employeeId, handleNewCertificationAdded } = this.props;
+    const { employeeId } = this.props;
     try {
       const response = await http.post(
         apiEndPoints.userCertificationCollection(employeeId),
         newCertificationData
       );
       if (response.status === 201) {
-        handleNewCertificationAdded(true);
         console.log("cert created");
+        updateCertifications();
+        handleModalClose();
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -102,7 +105,6 @@ class CreateCertification extends Form {
   render() {
     return (
       <div>
-        <h3>Create Certification</h3>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("issueDate", "Issue Date", "date")}
           {this.renderInput("expiryDate", "Expiry Date", "date")}
@@ -119,4 +121,20 @@ CreateCertification.propTypes = {
   employeeId: PropTypes.number.isRequired,
 };
 
-export default CreateCertification;
+const CreateButton = ({ handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      type="button"
+      className="btn btn-primary rounded"
+    >
+      <i className="fa fa-plus"> Add</i>
+    </button>
+  );
+};
+
+export default withModal(
+  CreateCertification,
+  CreateButton,
+  "Add Certification"
+);

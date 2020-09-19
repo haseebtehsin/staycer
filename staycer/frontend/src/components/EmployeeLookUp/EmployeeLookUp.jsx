@@ -3,20 +3,36 @@ import EmployeeList from "./EmployeeTable";
 import SearchBar from "../common/SearchBar/SearchBar";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
+import CreateEmployee from "../CreateEmployee";
+import Pagination from "../common/Pagination";
+import Spinner from "react-bootstrap/Spinner";
+import "./EmployeeLookUp.module.css";
 
 //TODO: Handle Errors
 //TODO: Get api constants from one source
 //TODO: Add 'loading' when fetching data
 class EmployeeLookUp extends Component {
   state = {
-    employeeList: [],
+    employees: [],
     currentPage: 1,
-    pageSize: 5,
+    pageSize: 10,
     totalCount: 1,
+    fetchingEmployees: false,
+  };
+
+  timeout(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  setFetchingEmployee = (value) => {
+    this.setState({ fetchingEmployees: value });
   };
 
   async fetchEmployees(pageNumber, pageSize, searchText = null) {
-    const { handleNewEmployeeAdded } = this.props;
+    this.setFetchingEmployee(true);
+    // This line is just to test spinner for development
+    // must remove in prod
+    const timeoutResponse = await this.timeout(200);
     let endpoint = new URL(apiEndPoints.usersCollection());
     if (searchText) {
       endpoint.searchParams.append("search", searchText);
@@ -24,14 +40,16 @@ class EmployeeLookUp extends Component {
     const offset = pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
     endpoint.searchParams.append("offset", offset);
     endpoint.searchParams.append("limit", pageSize);
+    endpoint.searchParams.append("expand", "profile");
     endpoint.searchParams.append("ordering", "-date_joined");
     const response = await http.get(endpoint.toString());
     if (response.status === 200) {
       this.setState({
-        employeeList: response.data.results,
+        employees: response.data.results,
         totalCount: response.data.count,
       });
     }
+    this.setFetchingEmployee(false);
   }
 
   onSearch = (searchText) => {
@@ -48,61 +66,78 @@ class EmployeeLookUp extends Component {
     this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { newEmployeeAdded, handleNewEmployeeAdded } = this.props;
-    // console.log("new add");
-    // console.log(newEmployeeAdded);
-    if (newEmployeeAdded) {
-      this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
-      handleNewEmployeeAdded(false);
-    }
-  }
-
   renderEmptyEmployee() {
     return (
-      <div>
+      <div
+        className="row row d-flex justify-content-center align-items-center"
+        style={{ height: "300px" }}
+      >
         <i className="fa fa-5x  fa-search-minus"></i>
       </div>
     );
   }
 
-  renderEmployeeList = (
-    employees,
-    totalCount,
-    handlePageChange,
-    currentPage,
-    pageSize
-  ) => {
-    return (
-      <EmployeeList
-        employees={employees}
-        totalCount={totalCount}
-        handlePageChange={handlePageChange}
-        currentPage={currentPage}
-        pageSize={pageSize}
-      />
-    );
+  renderEmployeeList = () => {
+    const { employees, pageSize, currentPage, totalCount } = this.state;
+    return <EmployeeList employees={employees} />;
   };
+
+  renderFetchingEmployees() {
+    return (
+      <div
+        className="row row d-flex justify-content-center align-items-center"
+        style={{ height: "300px" }}
+      >
+        <React.Fragment>
+          <Spinner animation="border" />
+        </React.Fragment>
+      </div>
+    );
+  }
 
   render() {
     const {
-      employeeList: employees,
+      employees,
       pageSize,
       currentPage,
+      fetchingEmployees,
       totalCount,
     } = this.state;
     return (
       <React.Fragment>
-        <SearchBar onSearch={this.onSearch} />
-        {employees.length > 0
-          ? this.renderEmployeeList(
-              employees,
-              totalCount,
-              this.handlePageChange,
-              currentPage,
-              pageSize
-            )
-          : this.renderEmptyEmployee()}
+        <div className="row">
+          <div className="col-6">
+            <SearchBar onSearch={this.onSearch} />
+          </div>
+          <div className="col-6 d-flex justify-content-end">
+            <CreateEmployee
+              updateEmployees={() => {
+                this.fetchEmployees(currentPage, pageSize, null);
+              }}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <div styleName="tableDiv">
+              {fetchingEmployees ? this.renderFetchingEmployees() : null}
+              {employees.length <= 0 && !fetchingEmployees
+                ? this.renderEmptyEmployee()
+                : null}
+              {!fetchingEmployees && employees.length > 0
+                ? this.renderEmployeeList()
+                : null}
+            </div>
+            <div>
+              <Pagination
+                itemsCount={totalCount}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                handlePageChange={this.handlePageChange}
+              />
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

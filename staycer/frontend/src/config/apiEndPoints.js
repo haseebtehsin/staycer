@@ -6,6 +6,8 @@ const apiEndPoints = {
   usersProfileResource: (id) => `${baseURL}${apiVersion}users/${id}/profile/`,
   userCertificationCollection: (userId) =>
     `${baseURL}${apiVersion}users/${userId}/certifications/`,
+  userCertificationResource: (userId, certificationId) =>
+    `${baseURL}${apiVersion}users/${userId}/certifications/${certificationId}/`,
   certificatesCollection: () => `${baseURL}${apiVersion}certificates/`,
 };
 

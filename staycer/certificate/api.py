@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
 from certificate.models import Certificate, Certification
 from .serializer import CertificateSerializer, CertificationSerializer
@@ -28,6 +28,9 @@ class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
 
 class UserCertificationViewSet(viewsets.ModelViewSet):
     serializer_class = CertificationSerializer
+    filter_backends = [filters.SearchFilter,
+                       django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['id', 'expiry_date']
 
     def get_queryset(self):
         user = self.kwargs['user_id']

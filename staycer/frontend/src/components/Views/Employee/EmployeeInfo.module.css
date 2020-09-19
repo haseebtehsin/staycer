@@ -1,0 +1,16 @@
+.employeeName {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.employeeDescriptionField {
+  font-size: 20px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.emplyeeDescriptionValue {
+  font-size: 15px;
+  display: inline-block;
+  margin-left: 10px;
+}
