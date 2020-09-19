@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import CertificationItem from "./CertificationItem";
+import EmployeeCertificationItem from "./EmployeeCertificationItem";
 import Pagination from "../common/Pagination";
 import PropTypes from "prop-types";
 
-function CertificationTable({
+function EmployeeCertificationTable({
   certifications,
   handlePageChange,
   pageSize,
@@ -14,7 +14,7 @@ function CertificationTable({
   return (
     <React.Fragment>
       {certifications.map((certification) => (
-        <CertificationItem
+        <EmployeeCertificationItem
           key={certification.id}
           certification={certification}
           employeeId={employeeId}
@@ -24,7 +24,7 @@ function CertificationTable({
   );
 }
 
-CertificationTable.propTypes = {
+EmployeeCertificationTable.propTypes = {
   certification: PropTypes.array,
   totalCount: PropTypes.number.isRequired,
   handlePageChange: PropTypes.func.isRequired,
@@ -32,4 +32,4 @@ CertificationTable.propTypes = {
   pageSize: PropTypes.number.isRequired,
 };
 
-export default CertificationTable;
+export default EmployeeCertificationTable;
