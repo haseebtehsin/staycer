@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import apiEndPoints from "../../../config/apiEndPoints";
 import http from "../../../services/httpService";
 import EmployeeInfo from "./EmployeeInfo";
-import CertificationLookUp from "../../Certifications/CertificationLookUp";
+import EmployeeCertifications from "../../EmployeeCertifications/EmployeeCertifications";
 import "./EmployeeProfile.module.css";
 
 import _ from "lodash";
@@ -50,7 +50,7 @@ class EmployeeProfile extends Component {
           />
         </div>
         <div styleName="employeeProfileComponent">
-          <CertificationLookUp employeeId={employee.id} />
+          <EmployeeCertifications employeeId={employee.id} />
         </div>
       </React.Fragment>
     );

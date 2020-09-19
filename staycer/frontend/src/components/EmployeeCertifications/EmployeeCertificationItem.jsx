@@ -4,9 +4,9 @@ import ImageModal from "../common/ImageModal/ImageModal";
 import EditCertification from "../EditCertification";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
-import "./CertificationItem.module.css";
+import "./EmployeeCertificationItem.module.css";
 
-function CertificationItem({
+function EmployeeCertificationItem({
   certification: certificationFromProp,
   employeeId,
 }) {
@@ -108,9 +108,9 @@ function CertificationItem({
   );
 }
 
-CertificationItem.propTypes = {
+EmployeeCertificationItem.propTypes = {
   certification: PropTypes.object,
   employeeId: PropTypes.number,
 };
 
-export default CertificationItem;
+export default EmployeeCertificationItem;

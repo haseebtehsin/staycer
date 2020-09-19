@@ -9,6 +9,7 @@ const apiEndPoints = {
   userCertificationResource: (userId, certificationId) =>
     `${baseURL}${apiVersion}users/${userId}/certifications/${certificationId}/`,
   certificatesCollection: () => `${baseURL}${apiVersion}certificates/`,
+  certificationCollection: () => `${baseURL}${apiVersion}certifications/`,
 };
 
 export default apiEndPoints;

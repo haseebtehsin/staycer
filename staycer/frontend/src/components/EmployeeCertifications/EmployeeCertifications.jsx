@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CertificationTable from "./CertificationTable";
+import EmployeeCertificationTable from "./EmployeeCertificationTable";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import PropTypes from "prop-types";
@@ -8,7 +8,7 @@ import CreateCertification from "../CreateCertification";
 //TODO: Handle Errors
 //TODO: Get api constants from one source
 //TODO: Add 'loading' when fetching data
-class CertificationLookUp extends Component {
+class EmployeeCertification extends Component {
   state = {
     certificationList: [],
     currentPage: 1,
@@ -16,7 +16,7 @@ class CertificationLookUp extends Component {
     totalCount: 1,
   };
 
-  async fetchCertifications(userId, pageNumber, pageSize) {
+  async fetchEmployeeCertification(userId, pageNumber, pageSize) {
     let endpoint = new URL(apiEndPoints.userCertificationCollection(userId));
     const offset = pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
     endpoint.searchParams.append("offset", offset);
@@ -35,17 +35,17 @@ class CertificationLookUp extends Component {
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
     const { employeeId } = this.props;
-    this.fetchCertifications(employeeId, page, this.state.pageSize);
+    this.fetchEmployeeCertification(employeeId, page, this.state.pageSize);
   };
 
-  updateCertifications = () => {
+  updateEmployeeCertification = () => {
     const { employeeId } = this.props;
     const { currentPage: pageNumber, pageSize } = this.state;
-    this.fetchCertifications(employeeId, pageNumber, pageSize);
+    this.fetchEmployeeCertification(employeeId, pageNumber, pageSize);
   };
 
   componentDidMount() {
-    this.updateCertifications();
+    this.updateEmployeeCertification();
   }
 
   renderEmptyCertification() {
@@ -65,7 +65,7 @@ class CertificationLookUp extends Component {
     employeeId
   ) => {
     return (
-      <CertificationTable
+      <EmployeeCertificationTable
         certifications={certifications}
         totalCount={totalCount}
         handlePageChange={handlePageChange}
@@ -116,8 +116,8 @@ class CertificationLookUp extends Component {
   }
 }
 
-CertificationLookUp.propTypes = {
+EmployeeCertification.propTypes = {
   employeeId: PropTypes.number.isRequired,
 };
 
-export default CertificationLookUp;
+export default EmployeeCertification;

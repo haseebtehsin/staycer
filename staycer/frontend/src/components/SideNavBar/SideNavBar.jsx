@@ -26,8 +26,8 @@ function SideNavBar() {
         </Menu>
         <Menu iconShape="square">
           <MenuItem icon={<HiOutlineDocumentReport />}>
-            Risk Report
-            <NavLink to="/risk" />
+            Certification
+            <NavLink to="/certification" />
           </MenuItem>
         </Menu>
         <Menu iconShape="square">

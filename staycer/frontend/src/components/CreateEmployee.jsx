@@ -11,6 +11,8 @@ class CreateEmployee extends Form {
     this.state = {
       data: {
         email: "",
+        firstName: "",
+        lastName: "",
       },
       errors: {},
     };

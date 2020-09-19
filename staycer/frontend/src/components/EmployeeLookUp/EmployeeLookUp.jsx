@@ -1,108 +1,61 @@
 import React, { Component } from "react";
-import EmployeeList from "./EmployeeTable";
+import EmployeeTable from "./EmployeeTable";
 import SearchBar from "../common/SearchBar/SearchBar";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import CreateEmployee from "../CreateEmployee";
-import Pagination from "../common/Pagination";
-import Spinner from "react-bootstrap/Spinner";
+import LookUp from "../common/LookUp/LookUp";
 import "./EmployeeLookUp.module.css";
 
 //TODO: Handle Errors
-//TODO: Get api constants from one source
-//TODO: Add 'loading' when fetching data
-class EmployeeLookUp extends Component {
-  state = {
-    employees: [],
-    currentPage: 1,
-    pageSize: 10,
-    totalCount: 1,
-    fetchingEmployees: false,
-  };
-
+class EmployeeLookUp extends LookUp {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...this.state,
+      data: {
+        employees: [],
+      },
+    };
+  }
   timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  setFetchingEmployee = (value) => {
-    this.setState({ fetchingEmployees: value });
-  };
-
-  async fetchEmployees(pageNumber, pageSize, searchText = null) {
-    this.setFetchingEmployee(true);
+  async fetchData(pageNumber) {
+    this.setFetching(true);
     // This line is just to test spinner for development
     // must remove in prod
     const timeoutResponse = await this.timeout(200);
     let endpoint = new URL(apiEndPoints.usersCollection());
+    const { searchText } = this.state;
     if (searchText) {
       endpoint.searchParams.append("search", searchText);
     }
-    const offset = pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
+    const offset = this.getPageOffset(pageNumber);
     endpoint.searchParams.append("offset", offset);
+    const { pageSize } = this.state;
     endpoint.searchParams.append("limit", pageSize);
     endpoint.searchParams.append("expand", "profile");
     endpoint.searchParams.append("ordering", "-date_joined");
     const response = await http.get(endpoint.toString());
     if (response.status === 200) {
       this.setState({
-        employees: response.data.results,
+        data: { employees: response.data.results },
         totalCount: response.data.count,
       });
     }
-    this.setFetchingEmployee(false);
+    this.setFetching(false);
   }
 
-  onSearch = (searchText) => {
-    this.setState({ currentPage: 1 });
-    this.fetchEmployees(1, this.state.pageSize, searchText);
+  renderEmployeeTable = () => {
+    const { employees } = this.state.data;
+    return <EmployeeTable employees={employees} />;
   };
-
-  handlePageChange = (page) => {
-    this.setState({ currentPage: page });
-    this.fetchEmployees(page, this.state.pageSize, null);
-  };
-
-  componentDidMount() {
-    this.fetchEmployees(this.state.currentPage, this.state.pageSize, null);
-  }
-
-  renderEmptyEmployee() {
-    return (
-      <div
-        className="row row d-flex justify-content-center align-items-center"
-        style={{ height: "300px" }}
-      >
-        <i className="fa fa-5x  fa-search-minus"></i>
-      </div>
-    );
-  }
-
-  renderEmployeeList = () => {
-    const { employees, pageSize, currentPage, totalCount } = this.state;
-    return <EmployeeList employees={employees} />;
-  };
-
-  renderFetchingEmployees() {
-    return (
-      <div
-        className="row row d-flex justify-content-center align-items-center"
-        style={{ height: "300px" }}
-      >
-        <React.Fragment>
-          <Spinner animation="border" />
-        </React.Fragment>
-      </div>
-    );
-  }
 
   render() {
-    const {
-      employees,
-      pageSize,
-      currentPage,
-      fetchingEmployees,
-      totalCount,
-    } = this.state;
+    const { currentPage, fetchingData } = this.state;
+    const { employees } = this.state.data;
     return (
       <React.Fragment>
         <div className="row">
@@ -112,7 +65,7 @@ class EmployeeLookUp extends Component {
           <div className="col-6 d-flex justify-content-end">
             <CreateEmployee
               updateEmployees={() => {
-                this.fetchEmployees(currentPage, pageSize, null);
+                this.fetchData(currentPage);
               }}
             />
           </div>
@@ -120,22 +73,15 @@ class EmployeeLookUp extends Component {
         <div className="row">
           <div className="col">
             <div styleName="tableDiv">
-              {fetchingEmployees ? this.renderFetchingEmployees() : null}
-              {employees.length <= 0 && !fetchingEmployees
-                ? this.renderEmptyEmployee()
+              {fetchingData ? this.renderFetchingData() : null}
+              {employees.length <= 0 && !fetchingData
+                ? this.renderEmpty()
                 : null}
-              {!fetchingEmployees && employees.length > 0
-                ? this.renderEmployeeList()
+              {!fetchingData && employees.length > 0
+                ? this.renderEmployeeTable()
                 : null}
             </div>
-            <div>
-              <Pagination
-                itemsCount={totalCount}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                handlePageChange={this.handlePageChange}
-              />
-            </div>
+            <div>{this.renderPagination()}</div>
           </div>
         </div>
       </React.Fragment>
