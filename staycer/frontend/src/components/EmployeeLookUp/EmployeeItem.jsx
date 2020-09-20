@@ -22,7 +22,7 @@ function EmployeeItem({ employee }) {
                 src={employee.profile.picture}
               />
             </div>
-            <div>
+            <div className="col-7">
               <NavLink to={`/employees/${employee.id}`}>{employeeName}</NavLink>
             </div>
           </div>

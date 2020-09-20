@@ -10,6 +10,9 @@ const apiEndPoints = {
     `${baseURL}${apiVersion}users/${userId}/certifications/${certificationId}/`,
   certificatesCollection: () => `${baseURL}${apiVersion}certificates/`,
   certificationCollection: () => `${baseURL}${apiVersion}certifications/`,
+  institutesCollection: () => `${baseURL}${apiVersion}institutes/`,
+  instituteCertificatesCollection: (insituteId) =>
+    `${baseURL}${apiVersion}institutes/${insituteId}/certificates/`,
 };
 
 export default apiEndPoints;

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { formatDate, remainingDays } from "../../../utils/date";
 import { capitalize } from "../../../utils/utils";
+import UserAvatar from "react-user-avatar";
 
 function CertificationItem({ certification }) {
-  const certificationName = `${capitalize(
+  const employeeName = `${capitalize(
     certification.user.profile.first_name
   )} ${capitalize(certification.user.profile.last_name)}`;
 
@@ -27,18 +28,31 @@ function CertificationItem({ certification }) {
   return (
     <React.Fragment>
       <tr>
+        <td>
+          <div className="row">
+            <div className="col-2">
+              <UserAvatar
+                size="32"
+                colors={["#20c997"]}
+                name={employeeName}
+                src={certification.user.profile.picture}
+              />
+            </div>
+            <div className="col-7">
+              <NavLink to={`/employees/${certification.user.id}`}>
+                {employeeName}
+              </NavLink>
+            </div>
+          </div>
+        </td>
         <td>{certification.certificate.name}</td>
+        <td>{certification.certificate.institute.name}</td>
         <td>{formatDate(certification.issue_date)}</td>
         <td>{formatDate(certification.expiry_date)}</td>
         <td>
           <span className={`badge badge-${certificationBadgeClass}`}>
             {remainingDaysDisplay}
           </span>
-        </td>
-        <td>
-          <NavLink to={`/employees/${certification.user.id}`}>
-            {certificationName}
-          </NavLink>
         </td>
       </tr>
     </React.Fragment>

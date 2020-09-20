@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Joi, { schema } from "joi-browser";
 import Input from "./input";
 class Form extends Component {
-  state = { data: {}, errors: {}, pictureFile: null };
+  state = { data: {}, errors: {}, pictureFile: undefined };
   validate = () => {
     const options = {
       abortEarly: false,

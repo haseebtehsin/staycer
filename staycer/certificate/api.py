@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
-from certificate.models import Certificate, Certification
-from .serializer import CertificateSerializer, CertificationSerializer
+from certificate.models import Certificate, Certification, Institute
+from .serializer import CertificateSerializer, CertificationSerializer, InstituteSerializer
 import django_filters.rest_framework
 from .filters import CertificationFilter
 
@@ -24,10 +24,16 @@ class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
     ]
     serializer_class = CertificationSerializer
     filter_class = CertificationFilter
+    filter_backends = [filters.SearchFilter,
+                       django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
+    search_fields = ['certificate__name']
 
 
 class UserCertificationViewSet(viewsets.ModelViewSet):
     serializer_class = CertificationSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
     filter_backends = [filters.SearchFilter,
                        django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['id', 'expiry_date']
@@ -45,3 +51,22 @@ class UserCertificationViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class InstituteViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = InstituteSerializer
+    queryset = Institute.objects.all()
+
+
+class InstituteCertificateViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = CertificateSerializer
+
+    def get_queryset(self):
+        institute = self.kwargs['institute_id']
+        return Certificate.objects.filter(institute=institute)

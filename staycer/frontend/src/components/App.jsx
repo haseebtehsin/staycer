@@ -3,6 +3,7 @@ import Employee from "./Views/Employee/Employee";
 import SideNavBar from "./SideNavBar/SideNavBar";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Certification from "./Views/Certification/Certification";
+import "./App.css";
 class App extends Component {
   render() {
     return (
