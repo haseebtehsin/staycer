@@ -126,10 +126,10 @@ class CertificationLookUp extends LookUp {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-6">
+          <div className="col-5">
             <SearchBar onSearch={this.onSearch} />
           </div>
-          <div className="col-6">{this.renderCertificationFilters()}</div>
+          <div className="col-7">{this.renderCertificationFilters()}</div>
         </div>
         <div className="row">
           <div className="col">

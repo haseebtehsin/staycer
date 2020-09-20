@@ -8,6 +8,7 @@ td {
     max-width: 285px;
 }
 
+
 body {
     background-color: #F0F0F7;
 }
@@ -18,7 +19,7 @@ body {
 
 .topRowContent {
     max-width: 100%;
-    flex: 0 0 80%;
+    /* flex: 0 0 80%; */
 }
 
 .generalComponentDiv {
