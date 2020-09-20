@@ -2,3 +2,24 @@ th,
 td {
     text-align: center;
 }
+
+table {
+    background-color: #FFFFFF;
+}
+
+.sideNavBar {
+    max-width: 285px;
+}
+
+body {
+    background-color: #F0F0F7;
+}
+
+.mainContent {
+    padding: 20px;
+}
+
+.topRowContent {
+    max-width: 100%;
+    flex: 0 0 80%;
+}
