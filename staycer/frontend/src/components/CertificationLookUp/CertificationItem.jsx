@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { formatDate, remainingDays } from "../../../utils/date";
 import { capitalize } from "../../../utils/utils";
 import UserAvatar from "react-user-avatar";
+import ImageButtonModal from "../common/ImageButtonModal/ImageButtonModal";
 
 function CertificationItem({ certification }) {
   const employeeName = `${capitalize(
@@ -53,6 +54,16 @@ function CertificationItem({ certification }) {
           <span className={`badge badge-${certificationBadgeClass}`}>
             {remainingDaysDisplay}
           </span>
+        </td>
+        <td>
+          {certification.picture ? (
+            <ImageButtonModal
+              imageUrl={certification.picture}
+              buttonText="View"
+            />
+          ) : (
+            "None"
+          )}
         </td>
       </tr>
     </React.Fragment>

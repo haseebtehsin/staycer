@@ -19,6 +19,7 @@ function CertificationTable({ certifications }) {
             <th scope="col">Issue Date</th>
             <th scope="col">Expiry Date</th>
             <th scope="col">Expring In(days)</th>
+            <th scope="col">View</th>
           </tr>
         </thead>
         <tbody>
