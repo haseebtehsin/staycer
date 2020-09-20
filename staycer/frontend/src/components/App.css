@@ -24,5 +24,6 @@ body {
 .generalComponentDiv {
     background-color: #FFFFFF;
     padding: 15px;
-    border-radius: 25px;
+    border-radius: 18px;
+    box-shadow: -1px 0px 7px 2px rgba(171, 161, 171, 1);
 }
