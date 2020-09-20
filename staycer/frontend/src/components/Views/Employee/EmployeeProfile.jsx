@@ -40,17 +40,19 @@ class EmployeeProfile extends Component {
     if (_.isEmpty(employee)) return null;
     return (
       <React.Fragment>
-        <div styleName="employeeProfileComponent">
-          <EmployeeInfo
-            employee={employee}
-            updateEmployeePicture={this.updateEmployeePicture}
-            updateEmployee={() => {
-              this.updateEmployee(employee.id);
-            }}
-          />
-        </div>
-        <div styleName="employeeProfileComponent">
-          <EmployeeCertifications employeeId={employee.id} />
+        <div className="generalComponentDiv">
+          <div styleName="employeeProfileComponent">
+            <EmployeeInfo
+              employee={employee}
+              updateEmployeePicture={this.updateEmployeePicture}
+              updateEmployee={() => {
+                this.updateEmployee(employee.id);
+              }}
+            />
+          </div>
+          <div styleName="employeeProfileComponent">
+            <EmployeeCertifications employeeId={employee.id} />
+          </div>
         </div>
       </React.Fragment>
     );

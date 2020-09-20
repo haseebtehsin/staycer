@@ -3,9 +3,6 @@ td {
     text-align: center;
 }
 
-table {
-    background-color: #FFFFFF;
-}
 
 .sideNavBar {
     max-width: 285px;
@@ -22,4 +19,10 @@ body {
 .topRowContent {
     max-width: 100%;
     flex: 0 0 80%;
+}
+
+.generalComponentDiv {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 25px;
 }
