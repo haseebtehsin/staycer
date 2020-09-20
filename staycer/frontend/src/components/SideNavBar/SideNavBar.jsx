@@ -21,10 +21,14 @@ function SideNavBar() {
     <React.Fragment>
       <ProSidebar>
         <SidebarHeader>
-          <div className="sideNavBarHeaderLogo">
-            <img src={staycerLogoUrl} width="60px" height="60px"></img>
+          <div>
+            <NavLink to="/">
+              <div className="sideNavBarHeaderLogo">
+                <img src={staycerLogoUrl} width="60px" height="60px"></img>
+              </div>
+              <div className="sideNavBarHeaderStaycerText"> Staycer </div>
+            </NavLink>
           </div>
-          <div className="sideNavBarHeaderStaycerText"> Staycer </div>
         </SidebarHeader>
         <SidebarContent>
           <Menu iconShape="circle">
