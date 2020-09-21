@@ -27,9 +27,13 @@ function EmployeeItem({ employee }) {
             </div>
           </div>
         </td>
+        <td>
+          {employee.profile.position?.name
+            ? employee.profile.position.name
+            : "Unknown"}
+        </td>
         <td>{formatDate(employee.date_joined)}</td>
         <td>{employee.total_certifications}</td>
-        <td>{employee.email}</td>
       </tr>
     </React.Fragment>
   );

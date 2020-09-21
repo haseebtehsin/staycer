@@ -49,7 +49,11 @@ const EmployeeInfo = ({ employee, updateEmployeePicture, updateEmployee }) => {
         <div className="row">
           <div className="col">
             <div styleName="employeeDescriptionField">Position </div>
-            <div styleName="emplyeeDescriptionValue">{employee.role}</div>
+            <div styleName="emplyeeDescriptionValue">
+              {employee.profile.position?.name
+                ? employee.profile.position.name
+                : "Unknown"}
+            </div>
           </div>
           <div className="col">
             <div styleName="employeeDescriptionField">

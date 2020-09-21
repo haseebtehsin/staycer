@@ -13,7 +13,9 @@ class CreateEmployee extends Form {
         email: "",
         firstName: "",
         lastName: "",
+        position: undefined,
       },
+      positions: [],
       errors: {},
     };
 
@@ -24,6 +26,7 @@ class CreateEmployee extends Form {
         .label("Email"),
       firstName: Joi.string().required().label("First Name"),
       lastName: Joi.string().required().label("Last Name"),
+      position: Joi.string().required().label("position"),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,6 +50,7 @@ class CreateEmployee extends Form {
       const userProfile = {
         first_name: data.firstName,
         last_name: data.lastName,
+        position: data.position,
       };
       const newUserData = { ...userBasicDetails, profile: userProfile };
       const response = await http.post(
@@ -67,13 +71,45 @@ class CreateEmployee extends Form {
     }
   };
 
+  renderPositionsDropDown = () => {
+    const { positions } = this.state;
+    const POSITION = "position";
+    return (
+      <React.Fragment>
+        <label htmlFor={POSITION}>Position</label>
+        <select
+          className="form-control"
+          onChange={this.handleChange}
+          error={POSITION}
+          name={POSITION}
+          label={POSITION}
+        >
+          <option value=""></option>
+          {positions.map((position) => (
+            <option key={position.name} value={position.id}>
+              {position.name}
+            </option>
+          ))}
+        </select>
+      </React.Fragment>
+    );
+  };
+
+  async componentDidMount() {
+    const response = await http.get(apiEndPoints.positionsCollection());
+    if (response.status === 200) {
+      this.setState({ ...this.state, positions: response.data.results });
+    }
+  }
+
   render() {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("email", "Email", "email")}
-          {this.renderInput("lastName", "Last Name")}
           {this.renderInput("firstName", "First Name")}
+          {this.renderInput("lastName", "Last Name")}
+          {this.renderPositionsDropDown()}
           {this.renderButton("Create")}
         </form>
       </div>

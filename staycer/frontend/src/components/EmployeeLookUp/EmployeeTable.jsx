@@ -14,9 +14,9 @@ function EmployeeTable({ employees }) {
         <thead>
           <tr>
             <th scope="col">Name</th>
+            <th scope="col">Position</th>
             <th scope="col">Date Joined</th>
             <th scope="col">Certifications</th>
-            <th scope="col">Email</th>
           </tr>
         </thead>
         <tbody>

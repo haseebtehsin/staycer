@@ -13,6 +13,7 @@ const apiEndPoints = {
   institutesCollection: () => `${baseURL}${apiVersion}institutes/`,
   instituteCertificatesCollection: (insituteId) =>
     `${baseURL}${apiVersion}institutes/${insituteId}/certificates/`,
+  positionsCollection: () => `${baseURL}${apiVersion}positions/`,
 };
 
 export default apiEndPoints;

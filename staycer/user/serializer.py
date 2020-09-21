@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from user.models import User, Profile
+from user.models import User, Profile, Position
 from certificate.models import Certification
 from rest_flex_fields import FlexFieldsModelSerializer
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        fields = '__all__'
 
 
 class UserCertificationsSerializer (serializers.ModelSerializer):
@@ -11,11 +17,13 @@ class UserCertificationsSerializer (serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserProfile (serializers.ModelSerializer):
+class UserProfile (FlexFieldsModelSerializer):
 
     class Meta:
         model = Profile
         fields = '__all__'
+        expandable_fields = {'position':
+                             PositionSerializer}
 
 
 class UserSerializer (FlexFieldsModelSerializer):

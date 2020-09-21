@@ -14,7 +14,7 @@ class CreateCertification extends Form {
         issueDate: undefined,
         expiryDate: undefined,
         validated: false,
-        certificate: "",
+        certificate: undefined,
         picture: undefined,
       },
       certificates: [],
@@ -28,7 +28,7 @@ class CreateCertification extends Form {
       issueDate: Joi.date().required(),
       expiryDate: Joi.date().required(),
       validated: Joi.boolean().required(),
-      certificate: Joi.string().min(0).required(),
+      certificate: Joi.string(),
       picture: Joi.string().allow(null),
     };
     this.handleChange = this.handleChange.bind(this);

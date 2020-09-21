@@ -12,7 +12,7 @@ class EmployeeProfile extends Component {
 
   async fetchEmployee(employeeId) {
     let endpoint = new URL(apiEndPoints.usersResource(employeeId));
-    endpoint.searchParams.append("expand", "profile");
+    endpoint.searchParams.append("expand", "profile.position");
     const response = await http.get(endpoint);
     return response.data;
   }

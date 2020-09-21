@@ -136,6 +136,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
 
+class Position(models.Model):
+    name = models.CharField(max_length=30, blank=True, unique=True)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
@@ -145,3 +149,5 @@ class Profile(models.Model):
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True)
     picture = models.ImageField(max_length=255, null=True, blank=True)
+    position = models.OneToOneField(
+        Position, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
