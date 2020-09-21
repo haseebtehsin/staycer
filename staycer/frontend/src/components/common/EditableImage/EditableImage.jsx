@@ -1,6 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import http from "../../../services/httpService";
-import "./EditableImage.module.css";
+// import "./EditableImage.module.css";
+import { RiEdit2Line } from "react-icons/ri";
+import { propTypes } from "react-bootstrap/esm/Image";
+const uploadimage = "/static/defaultAvatar-upload.png";
 
 const EditableImage = ({
   urlFunc,
@@ -9,7 +12,18 @@ const EditableImage = ({
   pictureUrl,
   width,
   height,
+  props,
 }) => {
+  let clicked = null;
+  // let hover = false;
+  const [hover, setHover] = useState(false);
+  function handleClick() {
+    clicked.click();
+  }
+  // function handleHover() {
+  //   hover ? (hover = false) : (hover = true);
+  // }
+
   const onFileChange = useCallback(async (event) => {
     const picture = event.target.files[0];
     if (!picture) return;
@@ -29,19 +43,46 @@ const EditableImage = ({
           type="file"
           onChange={onFileChange}
           style={{ display: "none" }}
+          ref={(input) => {
+            clicked = input;
+          }}
         />
       </form>
-      <div styleName="containerImage">
-        <img
+      <div className="container">
+        <div
+          className="row rounded-circle"
+          style={{
+            backgroundImage: `url(${pictureUrl})`,
+            width: `${width}`,
+            height: `${height}`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          // onMouseOver={() => setHover(true)}
+          // onMouseOut={() => setHover(false)}
+          onClick={handleClick}
+        >
+          {/* <img
           src={pictureUrl}
           className="rounded-circle"
           width={width}
           height={height}
-        ></img>
-        <div>
-          <label htmlFor="file-upload" className="custom-file-upload">
-            <i className="fa fa-cloud-upload"></i> Upload Image
-          </label>
+          onMouseOver={(e) => (e.currentTarget.src = uploadimage)}
+          onMouseOut={(e) => (e.currentTarget.src = pictureUrl)}
+          onClick={handleClick}
+          alt=""
+        /> */}
+          {hover && (
+            <h3
+              className="col"
+              style={{ top: "25%", left: "10%", color: "blue" }}
+            >
+              Upload Image
+            </h3>
+          )}
         </div>
       </div>
     </div>
