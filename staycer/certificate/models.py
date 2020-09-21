@@ -25,3 +25,9 @@ class Certification(models.Model):
     expiry_date = models.DateField()
     validated = models.BooleanField(default=False)
     picture = models.ImageField(max_length=255, null=True, blank=True)
+
+
+class Trade(models.Model):
+    name = models.TextField(unique=True, max_length=30)
+    certificates = models.ManyToManyField(
+        Certificate, related_name='trades')

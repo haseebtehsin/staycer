@@ -137,7 +137,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=30, blank=True, unique=True)
+    name = models.CharField(max_length=30, unique=True)
 
 
 class Profile(models.Model):

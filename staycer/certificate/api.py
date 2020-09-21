@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
-from certificate.models import Certificate, Certification, Institute
-from .serializer import CertificateSerializer, CertificationSerializer, InstituteSerializer
+from certificate.models import Certificate, Certification, Institute, Trade
+from .serializer import CertificateSerializer, CertificationSerializer, InstituteSerializer, TradeSerializer
 import django_filters.rest_framework
 from .filters import CertificationFilter
 
@@ -15,6 +15,9 @@ class CertificateViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = CertificateSerializer
     filterset_fields = '__all__'
+    filter_backends = [filters.SearchFilter,
+                       django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
+    search_fields = ['name']
 
 
 class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
@@ -70,3 +73,22 @@ class InstituteCertificateViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         institute = self.kwargs['institute_id']
         return Certificate.objects.filter(institute=institute)
+
+
+class TradeViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TradeSerializer
+    queryset = Trade.objects.all()
+
+
+class TradeCertificateViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = CertificateSerializer
+
+    def get_queryset(self):
+        trade_id = self.kwargs['trade_id']
+        return Certificate.objects.filter(trades=trade_id)

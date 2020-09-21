@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from certificate.models import Certificate, Certification, Institute
+from certificate.models import Certificate, Certification, Institute, Trade
 from user.models import User, Profile
 from rest_flex_fields import FlexFieldsModelSerializer
+
+
+class TradeSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Trade
+        fields = '__all__'
 
 
 class InstituteSerializer (serializers.ModelSerializer):
