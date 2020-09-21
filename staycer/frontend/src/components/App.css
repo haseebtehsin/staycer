@@ -1,0 +1,30 @@
+th,
+td {
+    text-align: center;
+}
+
+
+.sideNavBar {
+    max-width: 285px;
+}
+
+
+body {
+    background-color: #F0F0F7;
+}
+
+.mainContent {
+    padding: 20px;
+}
+
+.topRowContent {
+    max-width: 100%;
+    /* flex: 0 0 80%; */
+}
+
+.generalComponentDiv {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 18px;
+    box-shadow: -1px 0px 7px 2px rgba(171, 161, 171, 1);
+}

@@ -14,10 +14,11 @@ class CreateCertification extends Form {
         issueDate: undefined,
         expiryDate: undefined,
         validated: false,
-        certificate: "",
-        picture: null,
+        certificate: undefined,
+        picture: undefined,
       },
       certificates: [],
+      institutes: [],
       errors: {},
     };
 
@@ -27,16 +28,16 @@ class CreateCertification extends Form {
       issueDate: Joi.date().required(),
       expiryDate: Joi.date().required(),
       validated: Joi.boolean().required(),
-      certificate: Joi.string().min(0).required(),
+      certificate: Joi.string(),
       picture: Joi.string().allow(null),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   async componentDidMount() {
-    const response = await http.get(apiEndPoints.certificatesCollection());
+    const response = await http.get(apiEndPoints.institutesCollection());
     if (response.status === 200) {
-      this.setState({ ...this.state, certificates: response.data.results });
+      this.setState({ ...this.state, institutes: response.data.results });
     }
   }
 
@@ -56,6 +57,8 @@ class CreateCertification extends Form {
         formData.append(key, newCertificationData[key]);
       });
       newCertificationData = formData;
+    } else {
+      newCertificationData.picture = null;
     }
 
     const { employeeId } = this.props;
@@ -66,8 +69,8 @@ class CreateCertification extends Form {
       );
       if (response.status === 201) {
         console.log("cert created");
-        updateCertifications();
         handleModalClose();
+        updateCertifications();
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -102,6 +105,40 @@ class CreateCertification extends Form {
     );
   };
 
+  handleInstituteChange = async (e) => {
+    const instituteId = e.target.value;
+    const response = await http.get(
+      apiEndPoints.instituteCertificatesCollection(instituteId)
+    );
+    if (response.status === 200) {
+      this.setState({ ...this.state, certificates: response.data.results });
+    }
+  };
+
+  renderInstitutesDropDown = () => {
+    const { institutes } = this.state;
+    const INSTITUTE = "institute";
+    return (
+      <React.Fragment>
+        <label htmlFor="certificate">Institute</label>
+        <select
+          className="form-control"
+          onChange={this.handleInstituteChange}
+          error={INSTITUTE}
+          name={INSTITUTE}
+          label={INSTITUTE}
+        >
+          <option value=""></option>
+          {institutes.map((institute) => (
+            <option key={institute.id} value={institute.id}>
+              {institute.name}
+            </option>
+          ))}
+        </select>
+      </React.Fragment>
+    );
+  };
+
   render() {
     return (
       <div>
@@ -109,6 +146,7 @@ class CreateCertification extends Form {
           {this.renderInput("issueDate", "Issue Date", "date")}
           {this.renderInput("expiryDate", "Expiry Date", "date")}
           {this.renderInput("validated", "Validated", "checkbox")}
+          {this.renderInstitutesDropDown()}
           {this.renderCertificatesDropDown()}
           {this.renderInput("picture", "Picture", "file")}
           {this.renderButton("Create")}

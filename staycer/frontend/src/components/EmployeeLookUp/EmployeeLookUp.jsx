@@ -36,7 +36,7 @@ class EmployeeLookUp extends LookUp {
     endpoint.searchParams.append("offset", offset);
     const { pageSize } = this.state;
     endpoint.searchParams.append("limit", pageSize);
-    endpoint.searchParams.append("expand", "profile");
+    endpoint.searchParams.append("expand", "profile.position");
     endpoint.searchParams.append("ordering", "-date_joined");
     const response = await http.get(endpoint.toString());
     if (response.status === 200) {

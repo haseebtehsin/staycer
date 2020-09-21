@@ -12,7 +12,7 @@ class EmployeeProfile extends Component {
 
   async fetchEmployee(employeeId) {
     let endpoint = new URL(apiEndPoints.usersResource(employeeId));
-    endpoint.searchParams.append("expand", "profile");
+    endpoint.searchParams.append("expand", "profile.position");
     const response = await http.get(endpoint);
     return response.data;
   }
@@ -40,17 +40,19 @@ class EmployeeProfile extends Component {
     if (_.isEmpty(employee)) return null;
     return (
       <React.Fragment>
-        <div styleName="employeeProfileComponent">
-          <EmployeeInfo
-            employee={employee}
-            updateEmployeePicture={this.updateEmployeePicture}
-            updateEmployee={() => {
-              this.updateEmployee(employee.id);
-            }}
-          />
-        </div>
-        <div styleName="employeeProfileComponent">
-          <EmployeeCertifications employeeId={employee.id} />
+        <div className="generalComponentDiv">
+          <div styleName="employeeProfileComponent">
+            <EmployeeInfo
+              employee={employee}
+              updateEmployeePicture={this.updateEmployeePicture}
+              updateEmployee={() => {
+                this.updateEmployee(employee.id);
+              }}
+            />
+          </div>
+          <div styleName="employeeProfileComponent">
+            <EmployeeCertifications employeeId={employee.id} />
+          </div>
         </div>
       </React.Fragment>
     );

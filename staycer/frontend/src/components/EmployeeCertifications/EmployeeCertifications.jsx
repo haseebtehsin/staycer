@@ -96,7 +96,11 @@ class EmployeeCertification extends Component {
             <CreateCertification
               employeeId={employeeId}
               updateCertifications={() =>
-                this.fetchCertifications(employeeId, currentPage, pageSize)
+                this.fetchEmployeeCertification(
+                  employeeId,
+                  currentPage,
+                  pageSize
+                )
               }
             />
           </div>

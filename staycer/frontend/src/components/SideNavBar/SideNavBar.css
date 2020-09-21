@@ -1,0 +1,26 @@
+.pro-sidebar-header {
+    background-color: #0066B3;
+}
+
+.pro-item-content:hover {
+    color: #383c3f;
+}
+
+.pro-item-content {
+    font-size: 17px;
+    font-weight: 400;
+    color: white;
+}
+
+.sideNavBarHeaderLogo {
+    display: inline-block;
+    padding-left: 15px;
+}
+
+.sideNavBarHeaderStaycerText {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+    padding-left: 10px;
+}

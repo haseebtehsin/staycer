@@ -13,11 +13,13 @@ function CertificationTable({ certifications }) {
       >
         <thead>
           <tr>
+            <th scope="col">Employee</th>
             <th scope="col">Certification</th>
+            <th scope="col">Institute</th>
             <th scope="col">Issue Date</th>
             <th scope="col">Expiry Date</th>
             <th scope="col">Expring In(days)</th>
-            <th scope="col">Worker</th>
+            <th scope="col">View</th>
           </tr>
         </thead>
         <tbody>

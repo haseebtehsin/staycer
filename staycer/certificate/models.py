@@ -1,11 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phone_field import PhoneField
-from user.models import User
+from user.models import User, Address
+
+
+class Institute(models.Model):
+    name = models.TextField(unique=True)
+    address = models.OneToOneField(
+        Address, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Certificate(models.Model):
     name = models.TextField(unique=True)
+    institute = models.ForeignKey(
+        Institute, on_delete=models.CASCADE, related_name='certificates',
+        null=True, blank=True)
 
 
 class Certification(models.Model):

@@ -22,14 +22,18 @@ function EmployeeItem({ employee }) {
                 src={employee.profile.picture}
               />
             </div>
-            <div>
+            <div className="col-7">
               <NavLink to={`/employees/${employee.id}`}>{employeeName}</NavLink>
             </div>
           </div>
         </td>
+        <td>
+          {employee.profile.position?.name
+            ? employee.profile.position.name
+            : "Unknown"}
+        </td>
         <td>{formatDate(employee.date_joined)}</td>
         <td>{employee.total_certifications}</td>
-        <td>{employee.email}</td>
       </tr>
     </React.Fragment>
   );

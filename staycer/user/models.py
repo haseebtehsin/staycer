@@ -24,8 +24,7 @@ class Company(models.Model):
 
 class UserManager(BaseUserManager):
     def create_user(
-            self, email, first_name, last_name, password=None,
-            commit=True):
+            self, email, password=None, company=None, commit=True):
         """
         Creates and saves a User with the given email, first name, last name
         and password.
@@ -34,9 +33,7 @@ class UserManager(BaseUserManager):
             raise ValueError(_('Users must have an email address'))
 
         user = self.model(
-            email=self.normalize_email(email),
-            first_name=first_name,
-            last_name=last_name,
+            email=self.normalize_email(email), company=company
         )
 
         user.set_password(password)
@@ -44,19 +41,21 @@ class UserManager(BaseUserManager):
             user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, first_name="", last_name=""):
+    def create_superuser(self, email, password):
         """
         Creates and saves a superuser with the given email, first name,
         last name and password.
         """
-
-        # TODO: Create company "staycer" if it doesn't exist and then add superuser
-        # for that company
+        SUPER_USER_COMPANY = "staycer admin"
+        try:
+            su_company = Company.objects.get(name=SUPER_USER_COMPANY)
+        except Company.DoesNotExist:
+            su_company = Company(name=SUPER_USER_COMPANY)
+            su_company.save()
         user = self.create_user(
             email,
             password=password,
-            first_name=first_name,
-            last_name=last_name,
+            company=su_company,
             commit=False,
         )
         user.is_staff = True
@@ -116,8 +115,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         Return the first_name plus the last_name, with a space in between.
         """
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
+        # full_name = '%s %s' % (self.profile.first_name, self.last_name)
+        # return full_name.strip()
+        # since we do not have full name in user, we just return email
+        # This is mainly for django admin panel use since it needs to
+        # use this function to display name
+        return self.email
 
     def __str__(self):
         return '{} <{}>'.format(self.get_full_name(), self.email)
@@ -133,6 +136,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
 
+class Position(models.Model):
+    name = models.CharField(max_length=30, blank=True, unique=True)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
@@ -142,3 +149,5 @@ class Profile(models.Model):
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True)
     picture = models.ImageField(max_length=255, null=True, blank=True)
+    position = models.OneToOneField(
+        Position, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')

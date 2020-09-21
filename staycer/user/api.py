@@ -2,8 +2,8 @@ from rest_framework import viewsets, permissions, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
-from user.models import User
-from .serializer import UserSerializer, UserProfile
+from user.models import User, Position
+from .serializer import UserSerializer, UserProfile, PositionSerializer
 import django_filters.rest_framework
 from django.db.models import Count
 
@@ -34,3 +34,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return super().get_queryset().annotate(total_certifications=Count('certifications'))
+
+
+class PositionViewSet(viewsets.ModelViewSet):
+    queryset = Position.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = PositionSerializer

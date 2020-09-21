@@ -5,7 +5,9 @@ import CertificationLookUp from "../../CertificationLookUp/CertificationLookUp";
 function Risk() {
   return (
     <React.Fragment>
-      <CertificationLookUp />
+      <div className="generalComponentDiv">
+        <CertificationLookUp />
+      </div>
     </React.Fragment>
   );
 }
