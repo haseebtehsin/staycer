@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
+import { Dropdown } from "semantic-ui-react";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
 import withModal from "./common/withModal";
@@ -72,6 +73,29 @@ class CreateEmployee extends Form {
   };
 
   renderPositionsDropDown = () => {
+    // const { positions } = this.state;
+    // // const TRADE = "position";
+    // const positionOptions = positions.map((position) => ({
+    //   key: position.id,
+    //   value: position.id,
+    //   text: position.name,
+    // }));
+    // positionOptions.unshift({ key: "", value: "", text: "" });
+    // return (
+    //   <React.Fragment>
+    //     <Dropdown
+    //       placeholder="Select Trade"
+    //       fluid
+    //       search
+    //       selection
+    //       options={positionOptions}
+    //       onChange={(e, data) => {
+    //         this.handleChange(e);
+    //       }}
+    //     />
+    //   </React.Fragment>
+    // );
+
     const { positions } = this.state;
     const POSITION = "position";
     return (
@@ -79,7 +103,9 @@ class CreateEmployee extends Form {
         <label htmlFor={POSITION}>Position</label>
         <select
           className="form-control"
-          onChange={this.handleChange}
+          onChange={(e, data) => {
+            this.handleChange(e);
+          }}
           error={POSITION}
           name={POSITION}
           label={POSITION}

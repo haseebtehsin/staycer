@@ -46,7 +46,10 @@ class UserSerializer (FlexFieldsModelSerializer):
         return user
 
 
-class ScheduleSerializer (serializers.ModelSerializer):
+class ScheduleSerializer (FlexFieldsModelSerializer):
     class Meta:
         model = Schedule
         fields = '__all__'
+        expandable_fields = {
+            'user': UserSerializer
+        }

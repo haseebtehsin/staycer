@@ -150,14 +150,14 @@ class Profile(models.Model):
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True)
     picture = models.ImageField(max_length=255, null=True, blank=True)
-    position = models.OneToOneField(
+    position = models.ForeignKey(
         Position, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
 
 
 class Schedule(models.Model):
-    project = models.OneToOneField(
+    project = models.ForeignKey(
         Project, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
     start_date = models.DateField()
     end_date = models.DateField()

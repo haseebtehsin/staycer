@@ -55,7 +55,7 @@ class LookUp extends Component {
     return (
       <div
         className="row row d-flex justify-content-center align-items-center"
-        style={{ height: "300px" }}
+        // style={{ height: "300px" }}
       >
         <React.Fragment>
           <Spinner animation="border" />

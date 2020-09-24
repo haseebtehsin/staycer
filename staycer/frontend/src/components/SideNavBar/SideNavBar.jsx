@@ -10,6 +10,8 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { AiOutlineSchedule } from "react-icons/ai";
+import { BiBarChartAlt2 } from "react-icons/bi";
+import { MdWork } from "react-icons/md";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import "./SideNavBar.sass";
@@ -32,6 +34,12 @@ function SideNavBar() {
         </SidebarHeader>
         <SidebarContent>
           <Menu iconShape="circle">
+            <MenuItem icon={<BiBarChartAlt2 />}>
+              Dashboard
+              <NavLink to="/dashboard" />
+            </MenuItem>
+          </Menu>
+          <Menu iconShape="circle">
             <MenuItem icon={<FaUserCircle />}>
               Employees
               <NavLink to="/employees" />
@@ -39,8 +47,14 @@ function SideNavBar() {
           </Menu>
           <Menu iconShape="circle">
             <MenuItem icon={<HiOutlineDocumentReport />}>
-              Certification
+              Certifications
               <NavLink to="/certification" />
+            </MenuItem>
+          </Menu>
+          <Menu iconShape="circle">
+            <MenuItem icon={<MdWork />}>
+              Projects
+              <NavLink to="/project" />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">

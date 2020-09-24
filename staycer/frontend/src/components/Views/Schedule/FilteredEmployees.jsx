@@ -8,6 +8,7 @@ const FilteredEmployees = ({
   projects,
   createSchedule,
   scheduledEmployees,
+  datesValidated,
 }) => {
   const [projectSelected, updateProjectSelected] = useState(new Map());
   const saveProjectSelected = (data, employeeId) => {
@@ -40,9 +41,30 @@ const FilteredEmployees = ({
   const handleScheduleClick = (employeeId) => {
     if (projectSelected.has(employeeId)) {
       console.log("creating schedule");
+      console.log(projectSelected.get(employeeId));
       createSchedule(employeeId, projectSelected.get(employeeId));
     } else {
       console.log("select a project first");
+    }
+  };
+
+  const renderScheduleButton = (employeeId) => {
+    if (!datesValidated) {
+      return <span className="badge badge-danger">Select Dates</span>;
+    }
+    if (scheduledEmployees.has(employeeId)) {
+      return <span className="badge badge-success">Scheduled</span>;
+    } else {
+      return (
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => handleScheduleClick(employeeId)}
+          // disabled={!projectSelected.has(employeeId)}
+        >
+          Schedule
+        </button>
+      );
     }
   };
 
@@ -81,20 +103,7 @@ const FilteredEmployees = ({
                 </div>
               </td>
               <td>{renderProjectDropDown(employee.id)}</td>
-              <td>
-                {scheduledEmployees.has(employee.id) ? (
-                  <span className="badge badge-success">Scheduled</span>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => handleScheduleClick(employee.id)}
-                    // disabled={!projectSelected.has(employee.id)}
-                  >
-                    Schedule
-                  </button>
-                )}
-              </td>
+              <td>{renderScheduleButton(employee.id)}</td>
             </tr>
           ))}
         </tbody>

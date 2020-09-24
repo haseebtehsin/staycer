@@ -17,11 +17,19 @@ class Schedule extends Component {
     filteredEmployees: [],
     projects: [],
     scheduledEmployees: new Set(),
+    datesValidated: false,
   };
 
   addToScheduledEmployees = (employeeId) => {
     this.state.scheduledEmployees.add(employeeId);
     this.setState({ scheduledEmployees: this.state.scheduledEmployees });
+  };
+
+  setDatesValidated = (value) => {
+    if (value === true) {
+      this.fetchFilteredEmployees();
+    }
+    this.setState({ datesValidated: value });
   };
 
   handleCertificateSelect = (e) => {
@@ -47,8 +55,12 @@ class Schedule extends Component {
     const selectedCertificatesArray = Array.from(selectedCertificates);
     let endpoint = new URL(apiEndPoints.usersCollection());
     endpoint.searchParams.append("certifications", selectedCertificatesArray);
-    endpoint.searchParams.append("availability_after", startDate);
-    endpoint.searchParams.append("availability_before", endDate);
+
+    if (startDate && endDate) {
+      endpoint.searchParams.append("availability_after", startDate);
+      endpoint.searchParams.append("availability_before", endDate);
+    }
+
     // endpoint.searchParams.append("availability_range", {
     //   date_after: startDate,
     //   date_before: endDate,
@@ -86,7 +98,7 @@ class Schedule extends Component {
     const scheduleData = {
       start_date: startDate,
       end_date: endDate,
-      project_id: projectId,
+      project: projectId,
     };
     const response = await http.post(endpoint.toString(), scheduleData);
     if (response.status === 201) {
@@ -164,7 +176,12 @@ class Schedule extends Component {
   };
 
   renderFilteredEmployees = () => {
-    const { filteredEmployees, projects, scheduledEmployees } = this.state;
+    const {
+      filteredEmployees,
+      projects,
+      scheduledEmployees,
+      datesValidated,
+    } = this.state;
     return (
       <div className="generalComponentDiv">
         <h4>Employees</h4>
@@ -173,6 +190,7 @@ class Schedule extends Component {
           projects={projects}
           createSchedule={this.createSchedule}
           scheduledEmployees={scheduledEmployees}
+          datesValidated={datesValidated}
         />
       </div>
     );
@@ -207,6 +225,7 @@ class Schedule extends Component {
               <ScheduleFilters
                 handleFilterChange={this.handleFilterChange}
                 handleSearch={this.fetchFilteredEmployees}
+                setDatesValidated={this.setDatesValidated}
               />
             </div>
             {filteredEmployees.length > 0

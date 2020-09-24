@@ -19,7 +19,9 @@ const apiEndPoints = {
     `${baseURL}${apiVersion}trades/${tradeId}/certificates/`,
   projectsCollection: () => `${baseURL}${apiVersion}projects/`,
   userScheduleCollection: (employeeId) =>
-    `${baseURL}${apiVersion}users/${employeeId}/schedule/`,
+    `${baseURL}${apiVersion}users/${employeeId}/schedules/`,
+  projectScheduleCollection: (projectId) =>
+    `${baseURL}${apiVersion}projects/${projectId}/schedules/`,
 };
 
 export default apiEndPoints;

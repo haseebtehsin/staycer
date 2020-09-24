@@ -42,6 +42,7 @@ class CertificateLookUp extends LookUp {
   }
 
   render() {
+    const { fetchingData } = this.state;
     const { certificates } = this.state.data;
     const { handleCertificateSelect, selectedCertificates } = this.props;
     return (
@@ -50,20 +51,22 @@ class CertificateLookUp extends LookUp {
           <SearchBar onSearch={this.onSearch} />
         </div>
         <ul>
-          {certificates.map((certificate) => (
-            <div className="form-check" key={certificate.name}>
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={handleCertificateSelect}
-                value={certificate.name}
-                checked={selectedCertificates.has(certificate.name)}
-              />
-              <label className="form-check-label" htmlFor="exampleCheck1">
-                {certificate.name}
-              </label>
-            </div>
-          ))}
+          {fetchingData
+            ? this.renderFetchingData()
+            : certificates.map((certificate) => (
+                <div className="form-check" key={certificate.name}>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    onChange={handleCertificateSelect}
+                    value={certificate.name}
+                    checked={selectedCertificates.has(certificate.name)}
+                  />
+                  <label className="form-check-label" htmlFor="exampleCheck1">
+                    {certificate.name}
+                  </label>
+                </div>
+              ))}
         </ul>
         <div>{this.renderPagination()}</div>
       </React.Fragment>
