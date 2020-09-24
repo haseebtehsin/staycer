@@ -1,5 +1,8 @@
 .certificationItem {
   margin-top: 20px;
+  background-color: #fff8f8;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .certificationName {

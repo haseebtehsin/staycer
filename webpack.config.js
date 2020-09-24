@@ -1,7 +1,6 @@
 module.exports = {
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
@@ -10,8 +9,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [
-          {
+        use: [{
             loader: "style-loader",
           },
           {
@@ -33,12 +31,10 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {},
-          },
-        ],
+        use: [{
+          loader: "file-loader",
+          options: {},
+        }, ],
       },
       {
         test: /\.sass$/,

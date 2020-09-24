@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from user.models import User, Profile, Position
+from user.models import User, Profile, Position, Schedule
 from certificate.models import Certification
 from rest_flex_fields import FlexFieldsModelSerializer
 
@@ -44,3 +44,9 @@ class UserSerializer (FlexFieldsModelSerializer):
         user = User.objects.create(**validated_data)
         Profile.objects.create(user=user, **profile_data)
         return user
+
+
+class ScheduleSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = '__all__'

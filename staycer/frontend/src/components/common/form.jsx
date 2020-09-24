@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Joi, { schema } from "joi-browser";
+import Joi from "joi-browser";
 import Input from "./input";
 class Form extends Component {
   state = { data: {}, errors: {}, pictureFile: undefined };

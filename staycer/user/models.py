@@ -1,11 +1,12 @@
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from phone_field import PhoneField
 from django.utils import timezone
+from django.db import models
+from project.models import Project
+from phone_field import PhoneField
 
 
 class Address(models.Model):
@@ -151,3 +152,12 @@ class Profile(models.Model):
     picture = models.ImageField(max_length=255, null=True, blank=True)
     position = models.OneToOneField(
         Position, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
+
+
+class Schedule(models.Model):
+    project = models.OneToOneField(
+        Project, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
+    start_date = models.DateField()
+    end_date = models.DateField()

@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('frontend.urls')),
     path('', include('user.urls')),
     path('', include('certificate.urls')),
+    path('', include('project.urls')),
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('favicon.ico')))

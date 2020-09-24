@@ -12,7 +12,7 @@ function SearchBar({ onSearch }) {
     delayedOnSearch(e.target.value);
   };
   return (
-    <div className="main">
+    <div styleName="main">
       <div className="form-group" styleName="has-search">
         <span className="fa fa-search" styleName="form-control-feedback"></span>
         <input

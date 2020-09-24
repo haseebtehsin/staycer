@@ -46,7 +46,7 @@ class CertificateLookUp extends LookUp {
     const { handleCertificateSelect, selectedCertificates } = this.props;
     return (
       <React.Fragment>
-        <div className="col-6">
+        <div className="col-6" style={{ width: "50%" }}>
           <SearchBar onSearch={this.onSearch} />
         </div>
         <ul>
