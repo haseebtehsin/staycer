@@ -58,9 +58,11 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validate()} className="btn btn-primary">
-        {label}
-      </button>
+      <div className="row d-flex justify-content-center ">
+        <button disabled={this.validate()} className="btn btn-primary mt-3">
+          {label}
+        </button>
+      </div>
     );
   }
   renderInput(name, label, type = "text") {
@@ -83,25 +85,29 @@ class Form extends Component {
     const error = errors[name];
     const isChecked = value ? "checked" : null;
     return (
-      <div className="form-group">
-        <label htmlFor={name}>{label}</label>
-        <input
-          name={name}
-          id={name}
-          type="checkbox"
-          name={name}
-          value={value}
-          label={label}
-          onChange={this.handleChange}
-          error={errors[name]}
-          className="form-control"
-          checked={isChecked}
-        />
-        {error && (
-          <div className="alert alert-danger" style={{ color: "black" }}>
-            {error}
-          </div>
-        )}
+      <div className="form-group row">
+        <label htmlFor={name} className="col-4">
+          {label}
+        </label>
+        <div className="col-8">
+          <input
+            name={name}
+            id={name}
+            type="checkbox"
+            name={name}
+            value={value}
+            label={label}
+            onChange={this.handleChange}
+            error={errors[name]}
+            className="form-control"
+            checked={isChecked}
+          />
+          {error && (
+            <div className="alert alert-danger" style={{ color: "black" }}>
+              {error}
+            </div>
+          )}
+        </div>
       </div>
     );
   }

@@ -13,7 +13,11 @@ function SearchBar({ onSearch }) {
   };
   return (
     <div styleName="main">
-      <div className="form-group" styleName="has-search">
+      <div
+        className="form-group"
+        styleName="has-search"
+        // style={{ "margin-bottom": "0px" }}
+      >
         <span className="fa fa-search" styleName="form-control-feedback"></span>
         <input
           type="text"

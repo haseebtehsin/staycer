@@ -19,23 +19,27 @@ const EmployeeInfo = ({ employee, updateEmployeePicture, updateEmployee }) => {
   return (
     <React.Fragment>
       <div className="row">
-        <div className="col">
+        <div className="col-6 justify-content-start">
           <h2>Employee Details</h2>
         </div>
       </div>
-      <EditableImage
-        urlFunc={apiEndPoints.usersProfileResource(employee.id)}
-        pictureName={"picture"}
-        updatePictureUrl={updateEmployeePicture}
-        pictureUrl={employeePicture}
-        width="150px"
-        height="150px"
-      />
-      {/* <img src={defaultAvatar}></img> */}
-      <div className="row">
-        <div className="col" styleName="employeeName">
+      <div className="row  align-items-end mb-3">
+        <div className="col-6" styleName="employeeName">
           {employeeName}
         </div>
+        <div className="col-6 d-flex justify-content-end">
+          <EditableImage
+            urlFunc={apiEndPoints.usersProfileResource(employee.id)}
+            pictureName={"picture"}
+            updatePictureUrl={updateEmployeePicture}
+            pictureUrl={employeePicture}
+            width="150px"
+            height="150px"
+          />
+        </div>
+      </div>
+      {/* <img src={defaultAvatar}></img> */}
+      <div className="row">
         <div className="col d-flex justify-content-end">
           <EditEmployee
             employee={employee}

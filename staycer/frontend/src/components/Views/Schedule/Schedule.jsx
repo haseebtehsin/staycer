@@ -6,51 +6,105 @@ import FilteredEmployees from "./FilteredEmployees";
 import apiEndPoints from "../../../config/apiEndPoints";
 import http from "../../../services/httpService";
 import { Dropdown } from "semantic-ui-react";
+import { toast } from "react-toastify";
 
 class Schedule extends Component {
   state = {
     selectedCertificates: new Set(),
     trades: [],
-    selectedTrade: "custom",
+    selectedTrade: undefined,
     startDate: undefined,
     endDate: undefined,
     filteredEmployees: [],
     projects: [],
-    scheduledEmployees: new Set(),
-    datesValidated: false,
+    selectedEmployees: new Set(),
+    selectedProject: undefined,
   };
 
-  addToScheduledEmployees = (employeeId) => {
-    this.state.scheduledEmployees.add(employeeId);
-    this.setState({ scheduledEmployees: this.state.scheduledEmployees });
+  addSelectedEmployee = (employeeId) => {
+    this.state.selectedEmployees.add(employeeId);
+    this.setState({
+      selectedEmployees: this.state.selectedEmployees,
+    });
   };
 
-  setDatesValidated = (value) => {
-    if (value === true) {
-      this.fetchFilteredEmployees();
-    }
-    this.setState({ datesValidated: value });
+  deleteSelectedEmployee = (employeeId) => {
+    this.state.selectedEmployees.delete(employeeId);
+    this.setState({
+      selectedEmployees: this.state.selectedEmployees,
+    });
   };
+
+  setStateAsync(state) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve);
+    });
+  }
 
   handleCertificateSelect = (e) => {
     if (e.target.checked) {
       this.addSelectedCertificate(e.target.value);
     } else this.deleteSelectedCertificate(e.target.value);
+    this.fetchFilteredEmployees();
   };
-  handleFilterChange = (name, value) => {
-    this.setState({ [name]: value });
-  };
-  addSelectedCertificate = (certificate) => {
-    this.state.selectedCertificates.add(certificate);
-    this.setState({ selectedCertificates: this.state.selectedCertificates });
+  handleFilterChange = async (name, value) => {
+    await this.setStateAsync({ [name]: value });
+    this.fetchFilteredEmployees();
   };
 
-  deleteSelectedCertificate = (certificate) => {
+  addSelectedCertificate = async (certificate) => {
+    this.state.selectedCertificates.add(certificate);
+    await this.setStateAsync({
+      selectedCertificates: this.state.selectedCertificates,
+    });
+  };
+
+  deleteSelectedCertificate = async (certificate) => {
     this.state.selectedCertificates.delete(certificate);
-    this.setState({ selectedCertificates: this.state.selectedCertificates });
+    await this.setStateAsync({
+      selectedCertificates: this.state.selectedCertificates,
+    });
+  };
+
+  updateProjectSelected = (project) => {
+    console.log(typeof project);
+    this.setState({ selectedProject: project });
+  };
+
+  scheduleValidate = () => {
+    const {
+      startDate,
+      endDate,
+      selectedCertificates,
+      selectedEmployees,
+      selectedProject,
+    } = this.state;
+    if (
+      (endDate > startDate) &
+      (selectedCertificates.size > 0) &
+      (selectedEmployees.size > 0) &
+      (typeof selectedProject === "number")
+    ) {
+      return true;
+    } else return false;
+  };
+
+  searchValidate = () => {
+    const { startDate, endDate, selectedCertificates } = this.state;
+    if ((endDate > startDate) & (selectedCertificates.size > 0)) {
+      return true;
+    } else return false;
   };
 
   fetchFilteredEmployees = async () => {
+    if (!this.searchValidate()) {
+      console.log("Fields missing, not fetching");
+      this.setState({
+        filteredEmployees: [],
+      });
+      return;
+    }
+    console.log("fetching employees..");
     const { selectedCertificates, startDate, endDate } = this.state;
     const selectedCertificatesArray = Array.from(selectedCertificates);
     let endpoint = new URL(apiEndPoints.usersCollection());
@@ -69,7 +123,6 @@ class Schedule extends Component {
     if (response.status === 200) {
       this.setState({
         filteredEmployees: response.data.results,
-        scheduledEmployees: new Set(),
       });
     }
   };
@@ -92,18 +145,40 @@ class Schedule extends Component {
     }
   }
 
-  createSchedule = async (employeeId, projectId) => {
-    const { startDate, endDate } = this.state;
-    let endpoint = new URL(apiEndPoints.userScheduleCollection(employeeId));
-    const scheduleData = {
-      start_date: startDate,
-      end_date: endDate,
-      project: projectId,
-    };
-    const response = await http.post(endpoint.toString(), scheduleData);
-    if (response.status === 201) {
-      console.log("employee scheduled");
-      this.addToScheduledEmployees(employeeId);
+  createSchedule = async () => {
+    const {
+      startDate,
+      endDate,
+      selectedEmployees,
+      selectedProject,
+    } = this.state;
+    console.log("creating schedule");
+    console.log(
+      `${startDate} ${endDate} ${selectedEmployees} ${selectedProject}`
+    );
+    const scheduleDataList = [];
+    selectedEmployees.forEach((selectedEmployee) => {
+      scheduleDataList.push({
+        start_date: startDate,
+        end_date: endDate,
+        project: selectedProject,
+        user: selectedEmployee,
+      });
+    });
+    let endpoint = new URL(apiEndPoints.scheduleCollection());
+    try {
+      const response = await http.post(endpoint.toString(), scheduleDataList);
+      if (response.status === 201) {
+        console.log("employees scheduled");
+        toast.success("Employee Scheduled", { autoClose: 2000 });
+        this.setState({ selectedEmployees: new Set() });
+        this.fetchFilteredEmployees();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.log("Error scheduling employees");
+        toast.error("Error Scheduling", { autoClose: 2000 });
+      }
     }
   };
 
@@ -134,6 +209,7 @@ class Schedule extends Component {
       this.setState({
         selectedCertificates: new Set(updatedSelectedCertificates),
       });
+      this.fetchFilteredEmployees();
     }
   };
 
@@ -164,7 +240,7 @@ class Schedule extends Component {
     return (
       <React.Fragment>
         <div className="generalComponentDiv">
-          <h3>Certificates</h3>
+          <h3>Select Certificate</h3>
           <CertificateLookUp
             handleCertificateUpdate={this.handleCertificateUpdate}
             handleCertificateSelect={this.handleCertificateSelect}
@@ -176,12 +252,7 @@ class Schedule extends Component {
   };
 
   renderFilteredEmployees = () => {
-    const {
-      filteredEmployees,
-      projects,
-      scheduledEmployees,
-      datesValidated,
-    } = this.state;
+    const { filteredEmployees, projects, selectedEmployees } = this.state;
     return (
       <div className="generalComponentDiv">
         <h4>Employees</h4>
@@ -189,8 +260,24 @@ class Schedule extends Component {
           filteredEmployees={filteredEmployees}
           projects={projects}
           createSchedule={this.createSchedule}
-          scheduledEmployees={scheduledEmployees}
-          datesValidated={datesValidated}
+          addSelectedEmployee={this.addSelectedEmployee}
+          deleteSelectedEmployee={this.deleteSelectedEmployee}
+          scheduleValidate={this.scheduleValidate}
+          updateProjectSelected={this.updateProjectSelected}
+          selectedEmployees={selectedEmployees}
+        />
+      </div>
+    );
+  };
+
+  renderSelectedCertificates = () => {
+    const { selectedCertificates } = this.state;
+    return (
+      <div className="generalComponentDiv">
+        <h3>Selected Certificates</h3>
+        <SelectedCertificates
+          selectedCertificates={Array.from(selectedCertificates)}
+          deleteSelectedCertificate={this.deleteSelectedCertificate}
         />
       </div>
     );
@@ -202,31 +289,24 @@ class Schedule extends Component {
       selectedTrade,
       filteredEmployees,
     } = this.state;
+
     return (
       <React.Fragment>
-        <div className="row">
+        <div className="row ">
           <div className="col-4">
             <div className="generalComponentDiv">
               <h4>Trades</h4>
               {this.renderTradeDropDown()}
             </div>
             {selectedTrade === "custom" ? this.renderSearchCertificate() : null}
-            <div className="generalComponentDiv">
-              <h4>Selected</h4>
-              <SelectedCertificates
-                selectedCertificates={Array.from(selectedCertificates)}
-                deleteSelectedCertificate={this.deleteSelectedCertificate}
-              />
-            </div>
+            {selectedCertificates.size > 0
+              ? this.renderSelectedCertificates()
+              : null}
           </div>
           <div className="col-8">
             <div className="generalComponentDiv">
               <h4>Filters</h4>
-              <ScheduleFilters
-                handleFilterChange={this.handleFilterChange}
-                handleSearch={this.fetchFilteredEmployees}
-                setDatesValidated={this.setDatesValidated}
-              />
+              <ScheduleFilters handleFilterChange={this.handleFilterChange} />
             </div>
             {filteredEmployees.length > 0
               ? this.renderFilteredEmployees()

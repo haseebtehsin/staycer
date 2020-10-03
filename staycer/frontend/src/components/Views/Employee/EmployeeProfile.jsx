@@ -6,6 +6,7 @@ import EmployeeCertifications from "../../EmployeeCertifications/EmployeeCertifi
 import "./EmployeeProfile.module.css";
 
 import _ from "lodash";
+import EmployeeScheduleLookUp from "../../EmployeeScheduleLookUp/EmployeeScheduleLookUp";
 
 class EmployeeProfile extends Component {
   state = { employee: {} };
@@ -52,6 +53,9 @@ class EmployeeProfile extends Component {
           </div>
           <div styleName="employeeProfileComponent">
             <EmployeeCertifications employeeId={employee.id} />
+          </div>
+          <div styleName="employeeProfileComponent">
+            <EmployeeScheduleLookUp employeeId={employee.id} />
           </div>
         </div>
       </React.Fragment>

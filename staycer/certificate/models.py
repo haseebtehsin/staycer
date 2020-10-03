@@ -23,7 +23,7 @@ class Certification(models.Model):
     certificate = models.ForeignKey(Certificate, on_delete=models.CASCADE)
     issue_date = models.DateField()
     expiry_date = models.DateField()
-    validated = models.BooleanField(default=False)
+    tracking = models.BooleanField(default=True)
     picture = models.ImageField(max_length=255, null=True, blank=True)
 
 

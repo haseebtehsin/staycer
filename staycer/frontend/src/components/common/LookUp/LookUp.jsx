@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Pagination from "../Pagination";
 import Spinner from "react-bootstrap/Spinner";
 import "./LookUp.module.css";
+import NotFound from "../NotFound";
 
 //TODO: Handle Errors
 class LookUp extends Component {
@@ -41,21 +42,14 @@ class LookUp extends Component {
   }
 
   renderEmpty() {
-    return (
-      <div
-        className="row row d-flex justify-content-center align-items-center"
-        style={{ height: "300px" }}
-      >
-        <i className="fa fa-5x  fa-search-minus"></i>
-      </div>
-    );
+    return <NotFound />;
   }
 
   renderFetchingData() {
     return (
       <div
-        className="row row d-flex justify-content-center align-items-center"
-        // style={{ height: "300px" }}
+        className="d-flex  flex-column justify-content-center align-items-center"
+        style={{ height: "100%" }}
       >
         <React.Fragment>
           <Spinner animation="border" />

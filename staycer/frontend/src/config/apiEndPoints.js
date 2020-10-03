@@ -22,6 +22,13 @@ const apiEndPoints = {
     `${baseURL}${apiVersion}users/${employeeId}/schedules/`,
   projectScheduleCollection: (projectId) =>
     `${baseURL}${apiVersion}projects/${projectId}/schedules/`,
+  projectScheduleResource: (projectId, scheduleId) =>
+    `${baseURL}${apiVersion}projects/${projectId}/schedules/${scheduleId}/`,
+  scheduleCollection: () => `${baseURL}${apiVersion}schedules/`,
+  metricsCertificationExpiryResource: () =>
+    `${baseURL}${apiVersion}metrics/expiring-certifications/`,
+  metricsTradesCountResource: () =>
+    `${baseURL}${apiVersion}metrics/trade-count/`,
 };
 
 export default apiEndPoints;

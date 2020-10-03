@@ -7,7 +7,7 @@ function EmployeeTable({ employees }) {
   return (
     <React.Fragment>
       <table
-        className="table-striped table-bordered table-sm"
+        className="table-striped table-bordered table-sm "
         cellSpacing="0"
         width="100%"
       >

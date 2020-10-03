@@ -1,0 +1,10 @@
+.filteredEmployeesSelectionItemdiv {
+    display: inline-block;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+}
+
+.filteredEmployeesItem {
+    display: inline-block;
+    padding: 3px 5px;
+}

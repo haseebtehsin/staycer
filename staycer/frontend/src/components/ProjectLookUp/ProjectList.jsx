@@ -1,22 +1,33 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "./ProjectList.module.css";
 
 const ProjectList = ({ projects }) => {
-  const renderProjectCard = (project) => {
+  const renderProjectList = (project) => {
     return (
-      <div key={project.id} styleName="projectListCard" className="card">
-        <div className="card-body">
-          <NavLink to={`/project/${project.id}`}>
-            <h5 className="card-title">{project.name}</h5>
-          </NavLink>
-        </div>
-      </div>
+      <tr key={project.id}>
+        <td>
+          <NavLink to={`/project/${project.id}`}>{project.name}</NavLink>
+        </td>
+        <td>{project.total_scheduled}</td>
+      </tr>
     );
   };
+
   return (
     <React.Fragment>
-      {projects.map((project) => renderProjectCard(project))}
+      <table
+        className="table-striped table-bordered table-sm"
+        cellSpacing="0"
+        width="100%"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Project</th>
+            <th scope="col">Total Scheduled</th>
+          </tr>
+        </thead>
+        <tbody>{projects.map((project) => renderProjectList(project))}</tbody>
+      </table>
     </React.Fragment>
   );
 };

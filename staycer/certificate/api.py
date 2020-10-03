@@ -9,7 +9,7 @@ from .filters import CertificationFilter
 class CertificateViewSet(viewsets.ModelViewSet):
     # TODO: allow the ability to get all certificates
     # so that we are not limited by page size only
-    queryset = Certificate.objects.all()
+    queryset = Certificate.objects.filter()
     permission_classes = [
         permissions.AllowAny
     ]
@@ -21,7 +21,7 @@ class CertificateViewSet(viewsets.ModelViewSet):
 
 
 class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Certification.objects.all()
+    queryset = Certification.objects.filter(tracking=True)
     permission_classes = [
         permissions.AllowAny
     ]

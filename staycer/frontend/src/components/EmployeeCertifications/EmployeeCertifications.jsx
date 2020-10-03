@@ -3,6 +3,7 @@ import EmployeeCertificationTable from "./EmployeeCertificationTable";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import CreateCertification from "../CreateCertification";
 
 //TODO: Handle Errors
@@ -56,6 +57,20 @@ class EmployeeCertification extends Component {
     );
   }
 
+  handleCertificationDelete = async (certificationId) => {
+    console.log("Deleteding");
+    const { employeeId } = this.props;
+    const response = await http.delete(
+      apiEndPoints.userCertificationResource(employeeId, certificationId)
+    );
+
+    if (response.status === 204) {
+      console.log("Certification Deleted");
+      toast.success("Certification Deleted", { autoClose: 2000 });
+      this.updateEmployeeCertification();
+    }
+  };
+
   renderCertificationList = (
     certifications,
     totalCount,
@@ -72,6 +87,7 @@ class EmployeeCertification extends Component {
         currentPage={currentPage}
         pageSize={pageSize}
         employeeId={employeeId}
+        handleCertificationDelete={this.handleCertificationDelete}
       />
     );
   };

@@ -1,6 +1,7 @@
-.tableDiv {
-    height: 90%;
+.certificationsTableDiv {
+    height: 335px;
     width: 100%;
+    padding: 0.75rem 0rem;
 }
 
 .certificationFilterButton {

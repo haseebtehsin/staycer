@@ -156,8 +156,8 @@ class Profile(models.Model):
 
 class Schedule(models.Model):
     project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
+        Project, on_delete=models.CASCADE, null=True, blank=True, related_name='project_schedules')
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True, related_name='schedule')
+        User, on_delete=models.CASCADE, blank=True, related_name='user_schedules')
     start_date = models.DateField()
     end_date = models.DateField()

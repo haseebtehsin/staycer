@@ -6,7 +6,7 @@ const TopBar = () => {
       <div styleName="topBar">
         <div className="d-flex justify-content-end">
           <div className="p-2">
-            <div className="dropdown">
+            <div className="dropdown" styleName="settings">
               <button
                 className="btn btn-secondary dropdown-toggle"
                 type="button"

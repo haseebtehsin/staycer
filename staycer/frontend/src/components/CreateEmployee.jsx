@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
-import { Dropdown } from "semantic-ui-react";
+// import { Dropdown } from "semantic-ui-react";
+import { toast } from "react-toastify";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
 import withModal from "./common/withModal";
+import "./CreateEmployee.module.css";
 
 class CreateEmployee extends Form {
   constructor(props) {
@@ -59,9 +61,10 @@ class CreateEmployee extends Form {
         newUserData
       );
       if (response.status === 201) {
-        console.log("employee created");
+        console.log("Employee Created");
         updateEmployees();
         this.props.handleModalClose();
+        toast.success("Employee added", { autoClose: 2000 });
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -100,23 +103,29 @@ class CreateEmployee extends Form {
     const POSITION = "position";
     return (
       <React.Fragment>
-        <label htmlFor={POSITION}>Position</label>
-        <select
-          className="form-control"
-          onChange={(e, data) => {
-            this.handleChange(e);
-          }}
-          error={POSITION}
-          name={POSITION}
-          label={POSITION}
-        >
-          <option value=""></option>
-          {positions.map((position) => (
-            <option key={position.name} value={position.id}>
-              {position.name}
-            </option>
-          ))}
-        </select>
+        <div className="form-group row">
+          <label htmlFor={POSITION} className="col-4 col-form-label">
+            Position
+          </label>
+          <div className="col-8">
+            <select
+              className="form-control"
+              onChange={(e, data) => {
+                this.handleChange(e);
+              }}
+              error={POSITION}
+              name={POSITION}
+              label={POSITION}
+            >
+              <option value=""></option>
+              {positions.map((position) => (
+                <option key={position.name} value={position.id}>
+                  {position.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </React.Fragment>
     );
   };
@@ -131,7 +140,7 @@ class CreateEmployee extends Form {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="form-group mb-2">
           {this.renderInput("email", "Email", "email")}
           {this.renderInput("firstName", "First Name")}
           {this.renderInput("lastName", "Last Name")}
@@ -145,13 +154,15 @@ class CreateEmployee extends Form {
 
 const CreateButton = ({ handleClick }) => {
   return (
-    <button
-      onClick={handleClick}
-      type="button"
-      className="btn btn-primary rounded"
-    >
-      <i className="fa fa-plus"> Add Employee</i>
-    </button>
+    <div styleName="createEmployeeButton">
+      <button
+        onClick={handleClick}
+        type="button"
+        className="btn btn-primary rounded"
+      >
+        <i className="fa fa-plus"> Add Employee</i>
+      </button>
+    </div>
   );
 };
 

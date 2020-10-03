@@ -13,6 +13,7 @@ class EmployeeLookUp extends LookUp {
     super(props);
     this.state = {
       ...this.state,
+      pageSize: 7,
       data: {
         employees: [],
       },
@@ -26,7 +27,7 @@ class EmployeeLookUp extends LookUp {
     this.setFetching(true);
     // This line is just to test spinner for development
     // must remove in prod
-    const timeoutResponse = await this.timeout(200);
+    const timeoutResponse = await this.timeout(100);
     let endpoint = new URL(apiEndPoints.usersCollection());
     const { searchText } = this.state;
     if (searchText) {
@@ -58,7 +59,8 @@ class EmployeeLookUp extends LookUp {
     const { employees } = this.state.data;
     return (
       <React.Fragment>
-        <div className="row">
+        <h3>Employees</h3>
+        <div className="row justify-content-center align-items-center">
           <div className="col-6">
             <SearchBar onSearch={this.onSearch} />
           </div>
@@ -72,7 +74,7 @@ class EmployeeLookUp extends LookUp {
         </div>
         <div className="row">
           <div className="col">
-            <div styleName="tableDiv">
+            <div styleName="employeeTableDiv">
               {fetchingData ? this.renderFetchingData() : null}
               {employees.length <= 0 && !fetchingData
                 ? this.renderEmpty()

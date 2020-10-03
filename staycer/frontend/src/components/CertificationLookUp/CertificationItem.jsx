@@ -30,8 +30,8 @@ function CertificationItem({ certification }) {
     <React.Fragment>
       <tr>
         <td>
-          <div className="row">
-            <div className="col-2">
+          <div className="row align-items-center">
+            <div className="col-2 d-flex justify-content-start">
               <UserAvatar
                 size="32"
                 colors={["#20c997"]}
@@ -39,7 +39,7 @@ function CertificationItem({ certification }) {
                 src={certification.user.profile.picture}
               />
             </div>
-            <div className="col-7">
+            <div className="col-7 d-flex justify-content-start">
               <NavLink to={`/employees/${certification.user.id}`}>
                 {employeeName}
               </NavLink>

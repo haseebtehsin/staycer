@@ -6,16 +6,26 @@ const SelectedCertificates = ({
 }) => {
   return (
     <React.Fragment>
-      {selectedCertificates.map((selectedCertificate) => (
-        <div key={selectedCertificate}>
-          <div styleName="selectedDivItem">{selectedCertificate}</div>
-          <div styleName="selectedDivItem">
-            <a onClick={() => deleteSelectedCertificate(selectedCertificate)}>
-              <i className="fa fa-times"></i>
-            </a>
-          </div>
-        </div>
-      ))}
+      <ul className="list-group">
+        {selectedCertificates.map((selectedCertificate) => (
+          <li
+            key={selectedCertificate}
+            className="list-group-item"
+            styleName="selectedCertificate"
+          >
+            <div className="d-flex justify-content-between">
+              <div>{selectedCertificate}</div>
+              <div>
+                <a
+                  onClick={() => deleteSelectedCertificate(selectedCertificate)}
+                >
+                  <i className="fa fa-times"></i>
+                </a>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </React.Fragment>
   );
 };

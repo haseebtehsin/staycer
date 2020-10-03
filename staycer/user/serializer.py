@@ -1,6 +1,7 @@
-from rest_framework import serializers
+from rest_framework import serializers, generics
 from user.models import User, Profile, Position, Schedule
 from certificate.models import Certification
+from project.serializer import ProjectSerializer
 from rest_flex_fields import FlexFieldsModelSerializer
 
 
@@ -51,5 +52,6 @@ class ScheduleSerializer (FlexFieldsModelSerializer):
         model = Schedule
         fields = '__all__'
         expandable_fields = {
-            'user': UserSerializer
+            'user': UserSerializer,
+            'project': ProjectSerializer,
         }

@@ -10,6 +10,7 @@ function EmployeeCertificationTable({
   currentPage,
   totalCount,
   employeeId,
+  handleCertificationDelete,
 }) {
   return (
     <React.Fragment>
@@ -18,6 +19,7 @@ function EmployeeCertificationTable({
           key={certification.id}
           certification={certification}
           employeeId={employeeId}
+          handleCertificationDelete={handleCertificationDelete}
         />
       ))}
     </React.Fragment>
@@ -30,6 +32,7 @@ EmployeeCertificationTable.propTypes = {
   handlePageChange: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
+  handleCertificationDelete: PropTypes.func.isRequired,
 };
 
 export default EmployeeCertificationTable;

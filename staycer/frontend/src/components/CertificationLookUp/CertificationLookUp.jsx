@@ -5,6 +5,7 @@ import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import "./CertificationLookUp.module.css";
 import LookUp from "../common/LookUp/LookUp";
+import { Dropdown } from "semantic-ui-react";
 
 //TODO: Handle Errors
 class CertificationLookUp extends LookUp {
@@ -12,10 +13,13 @@ class CertificationLookUp extends LookUp {
     super(props);
     this.state = {
       ...this.state,
+      pageSize: 7,
+      searchCertificates: "",
       data: {
         certifications: [],
         daysFilter: null,
         expiredOnly: false,
+        certificates: [],
       },
     };
   }
@@ -24,11 +28,11 @@ class CertificationLookUp extends LookUp {
     this.setFetching(true);
     // This line is just to test spinner for development
     // must remove in prod
-    const timeoutResponse = await this.timeout(200);
+    const timeoutResponse = await this.timeout(100);
     let endpoint = new URL(apiEndPoints.certificationCollection());
-    const { searchText } = this.state;
-    if (searchText) {
-      endpoint.searchParams.append("search", searchText);
+    const { searchCertificates } = this.state;
+    if (searchCertificates) {
+      endpoint.searchParams.append("certificates", searchCertificates);
     }
     const { daysFilter, expiredOnly } = this.state.data;
     // We only want to have one of these filter set
@@ -54,10 +58,25 @@ class CertificationLookUp extends LookUp {
     this.setFetching(false);
   }
 
+  fetchCertificates = async () => {
+    let endpoint = new URL(apiEndPoints.certificatesCollection());
+    const response = await http.get(endpoint.toString());
+    if (response.status === 200) {
+      this.setState({
+        data: { ...this.state.data, certificates: response.data.results },
+      });
+    }
+  };
+
   renderCertificationTable = () => {
     const { certifications } = this.state.data;
     return <CertificationTable certifications={certifications} />;
   };
+
+  componentDidMount() {
+    this.fetchData(this.state.currentPage);
+    this.fetchCertificates();
+  }
 
   setDaysFilter = (days) => {
     this.setState({
@@ -120,20 +139,50 @@ class CertificationLookUp extends LookUp {
     );
   };
 
+  handleCertificateChange = async (e, data) => {
+    this.setState({ currentPage: 1, searchCertificates: data.value.join(",") });
+    this.fetchData(1);
+  };
+
+  renderCertificatesDropDown = () => {
+    const { certificates } = this.state.data;
+    // const TRADE = "certificate";
+    const certificateOptions = certificates.map((certificate) => ({
+      key: certificate.id,
+      value: certificate.id,
+      text: certificate.name,
+    }));
+    // tradeOptions.unshift({ key: "custom", value: "custom", text: "Custom" });
+    return (
+      <Dropdown
+        placeholder="Search Certificates"
+        fluid
+        multiple
+        search
+        selection
+        options={certificateOptions}
+        onChange={this.handleCertificateChange}
+      />
+    );
+  };
   render() {
     const { fetchingData } = this.state;
     const { certifications } = this.state.data;
     return (
       <React.Fragment>
+        <h3>Certifications</h3>
         <div className="row">
-          <div className="col-5">
+          {/* <div className="col-3">
             <SearchBar onSearch={this.onSearch} />
+          </div> */}
+          <div className="col-5">{this.renderCertificatesDropDown()}</div>
+          <div className="col-7 d-flex justify-content-end">
+            {this.renderCertificationFilters()}
           </div>
-          <div className="col-7">{this.renderCertificationFilters()}</div>
         </div>
         <div className="row">
           <div className="col">
-            <div styleName="tableDiv">
+            <div styleName="certificationsTableDiv">
               {fetchingData ? this.renderFetchingData() : null}
               {certifications.length <= 0 && !fetchingData
                 ? this.renderEmpty()

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
+import { toast } from "react-toastify";
+
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
 import PropTypes from "prop-types";
@@ -13,7 +15,6 @@ class CreateCertification extends Form {
       data: {
         issueDate: undefined,
         expiryDate: undefined,
-        validated: false,
         certificate: undefined,
         picture: undefined,
       },
@@ -27,7 +28,6 @@ class CreateCertification extends Form {
     this.schema = {
       issueDate: Joi.date().required(),
       expiryDate: Joi.date().required(),
-      validated: Joi.boolean().required(),
       certificate: Joi.string(),
       picture: Joi.string().allow(null),
     };
@@ -47,7 +47,6 @@ class CreateCertification extends Form {
     let newCertificationData = {
       issue_date: data.issueDate,
       expiry_date: data.expiryDate,
-      validated: data.validated,
       certificate: parseInt(data.certificate),
     };
     if (pictureFile) {
@@ -71,6 +70,7 @@ class CreateCertification extends Form {
         console.log("cert created");
         handleModalClose();
         updateCertifications();
+        toast.success("Certification Added", { autoClose: 2000 });
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -86,21 +86,27 @@ class CreateCertification extends Form {
     const { certificates } = this.state;
     return (
       <React.Fragment>
-        <label htmlFor="certificate">Certificate</label>
-        <select
-          className="form-control"
-          onChange={this.handleChange}
-          error="certificate"
-          name="certificate"
-          label="certificate"
-        >
-          <option value=""></option>
-          {certificates.map((certificate) => (
-            <option key={certificate.name} value={certificate.id}>
-              {certificate.name}
-            </option>
-          ))}
-        </select>
+        <div className="form-group row">
+          <label htmlFor="certificate" className="col-4 col-form-label">
+            Certificate
+          </label>
+          <div className="col-8">
+            <select
+              className="form-control"
+              onChange={this.handleChange}
+              error="certificate"
+              name="certificate"
+              label="certificate"
+            >
+              <option value=""></option>
+              {certificates.map((certificate) => (
+                <option key={certificate.name} value={certificate.id}>
+                  {certificate.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </React.Fragment>
     );
   };
@@ -120,21 +126,27 @@ class CreateCertification extends Form {
     const INSTITUTE = "institute";
     return (
       <React.Fragment>
-        <label htmlFor="certificate">Institute</label>
-        <select
-          className="form-control"
-          onChange={this.handleInstituteChange}
-          error={INSTITUTE}
-          name={INSTITUTE}
-          label={INSTITUTE}
-        >
-          <option value=""></option>
-          {institutes.map((institute) => (
-            <option key={institute.id} value={institute.id}>
-              {institute.name}
-            </option>
-          ))}
-        </select>
+        <div className="form-group row">
+          <label htmlFor="certificate" className="col-4 col-form-label">
+            Institute
+          </label>
+          <div className="col-8">
+            <select
+              className="form-control"
+              onChange={this.handleInstituteChange}
+              error={INSTITUTE}
+              name={INSTITUTE}
+              label={INSTITUTE}
+            >
+              <option value=""></option>
+              {institutes.map((institute) => (
+                <option key={institute.id} value={institute.id}>
+                  {institute.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </React.Fragment>
     );
   };
@@ -145,7 +157,6 @@ class CreateCertification extends Form {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("issueDate", "Issue Date", "date")}
           {this.renderInput("expiryDate", "Expiry Date", "date")}
-          {this.renderInput("validated", "Validated", "checkbox")}
           {this.renderInstitutesDropDown()}
           {this.renderCertificatesDropDown()}
           {this.renderInput("picture", "Picture", "file")}

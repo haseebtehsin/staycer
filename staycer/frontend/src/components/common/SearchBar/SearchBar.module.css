@@ -4,7 +4,16 @@
 }
 
 .has-search .form-control {
+
   padding-left: 2.375rem;
+  border-width: 1px;
+  line-height: 1.5;
+  border-style: solid;
+  border-color: rgba(34, 36, 38, 0.15);
+  border-image: initial;
+  border-radius: 0.285714rem;
+  transition: box-shadow 0.1s ease 0s, width 0.1s ease 0s, -webkit-box-shadow 0.1s ease 0s;
+
 }
 
 .has-search .form-control-feedback {
@@ -13,8 +22,12 @@
   display: block;
   width: 2.375rem;
   height: 2.375rem;
-  line-height: 2.375rem;
+  line-height: 1.700rem;
   text-align: center;
-  pointer-events: none;
+  /* pointer-events: none; */
   color: #aaa;
+}
+
+.has-search {
+  margin: auto;
 }

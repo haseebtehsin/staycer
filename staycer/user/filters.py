@@ -38,10 +38,12 @@ class UserFilter(django_filters.FilterSet):
                     queryset = queryset.filter(
                         (Q(certifications__issue_date__lte=availability_start) &
                          Q(certifications__expiry_date__gte=availability_end)) &
-                        Q(certifications__certificate__name__exact=certification))
+                        Q(certifications__certificate__name__exact=certification) &
+                        Q(certifications__tracking=True))
                 else:
                     queryset = queryset.filter(
-                        certifications__certificate__name__exact=certification)
+                        certifications__certificate__name__exact=certification &
+                        Q(certifications__tracking=True))
                 if len(queryset) == 0:
                     break
             return queryset
@@ -52,12 +54,12 @@ class UserFilter(django_filters.FilterSet):
 
             availability_start, availability_end = _strip_date_from_value(
                 value)
-            return queryset.filter(~((Q(schedule__start_date__lte=availability_start) &
-                                      Q(schedule__end_date__gte=availability_start)) |
-                                     (Q(schedule__start_date__lte=availability_end) &
-                                      Q(schedule__end_date__gte=availability_end)) |
-                                     (Q(schedule__start_date__gte=availability_start) &
-                                      Q(schedule__end_date__lte=availability_end))))
+            return queryset.filter(~((Q(user_schedules__start_date__lte=availability_start) &
+                                      Q(user_schedules__end_date__gte=availability_start)) |
+                                     (Q(user_schedules__start_date__lte=availability_end) &
+                                      Q(user_schedules__end_date__gte=availability_end)) |
+                                     (Q(user_schedules__start_date__gte=availability_start) &
+                                      Q(user_schedules__end_date__lte=availability_end))))
         return queryset
 
     class Meta:

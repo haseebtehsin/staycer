@@ -15,7 +15,6 @@ class EditCertification extends Form {
       data: {
         issueDate: certification.issue_date,
         expiryDate: certification.expiry_date,
-        validated: certification.validated,
         // certificate: certification.certificate,
         picture: null,
       },
@@ -82,7 +81,6 @@ class EditCertification extends Form {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("issueDate", "Issue Date", "date")}
           {this.renderInput("expiryDate", "Expiry Date", "date")}
-          {this.renderCheckBox("validated", "Validated")}
           {/* {this.renderCertificatesDropDown()} */}
           {this.renderInput("picture", "Picture", "file")}
           {this.renderButton("Update")}
@@ -106,4 +104,4 @@ const EditButton = ({ handleClick }) => {
   );
 };
 
-export default withModal(EditCertification, EditButton, "Edit Employee");
+export default withModal(EditCertification, EditButton, "Edit Certification");

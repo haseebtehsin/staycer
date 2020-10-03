@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import {
   ProSidebar,
   Menu,
@@ -18,7 +18,16 @@ import "./SideNavBar.sass";
 import "./SideNavBar.css";
 // import "./SideNavBar.module.css";
 function SideNavBar() {
+  const [activeMenu, updateActiveMenu] = useState("employees");
+  const history = useHistory();
   const staycerLogoUrl = "/static/staycerLogo.png";
+  const handleClick = (menuItem) => {
+    updateActiveMenu(menuItem);
+    history.push(`/${menuItem}`);
+  };
+  const handleToggle = (value) => {
+    console.log(`${value} toggled`);
+  };
   return (
     <React.Fragment>
       <ProSidebar>
@@ -34,33 +43,68 @@ function SideNavBar() {
         </SidebarHeader>
         <SidebarContent>
           <Menu iconShape="circle">
-            <MenuItem icon={<BiBarChartAlt2 />}>
+            <MenuItem
+              icon={<BiBarChartAlt2 />}
+              active={activeMenu === "dashboard" ? true : false}
+            >
               Dashboard
-              <NavLink to="/dashboard" />
+              <a
+                onClick={() => {
+                  handleClick("dashboard");
+                }}
+              />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <MenuItem icon={<FaUserCircle />}>
+            <MenuItem
+              icon={<FaUserCircle />}
+              active={activeMenu === "employees" ? true : false}
+            >
               Employees
-              <NavLink to="/employees" />
+              <a
+                onClick={() => {
+                  handleClick("employees");
+                }}
+              />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <MenuItem icon={<HiOutlineDocumentReport />}>
+            <MenuItem
+              icon={<HiOutlineDocumentReport />}
+              active={activeMenu === "certification" ? true : false}
+            >
               Certifications
-              <NavLink to="/certification" />
+              <a
+                onClick={() => {
+                  handleClick("certification");
+                }}
+              />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <MenuItem icon={<MdWork />}>
+            <MenuItem
+              icon={<MdWork />}
+              active={activeMenu === "project" ? true : false}
+            >
               Projects
-              <NavLink to="/project" />
+              <a
+                onClick={() => {
+                  handleClick("project");
+                }}
+              />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <MenuItem icon={<AiOutlineSchedule />}>
+            <MenuItem
+              icon={<AiOutlineSchedule />}
+              active={activeMenu === "schedule" ? true : false}
+            >
               Schedule
-              <NavLink to="/schedule" />
+              <a
+                onClick={() => {
+                  handleClick("schedule");
+                }}
+              />
             </MenuItem>
           </Menu>
         </SidebarContent>

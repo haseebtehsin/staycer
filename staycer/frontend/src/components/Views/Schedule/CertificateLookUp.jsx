@@ -9,6 +9,7 @@ class CertificateLookUp extends LookUp {
     super(props);
     this.state = {
       ...this.state,
+      pageSize: 5,
       data: {
         certificates: [],
       },
@@ -19,7 +20,7 @@ class CertificateLookUp extends LookUp {
     this.setFetching(true);
     // This line is just to test spinner for development
     // must remove in prod
-    const timeoutResponse = await this.timeout(200);
+    const timeoutResponse = await this.timeout(100);
     let endpoint = new URL(apiEndPoints.certificatesCollection());
     const { searchText } = this.state;
     if (searchText) {
@@ -47,27 +48,29 @@ class CertificateLookUp extends LookUp {
     const { handleCertificateSelect, selectedCertificates } = this.props;
     return (
       <React.Fragment>
-        <div className="col-6" style={{ width: "50%" }}>
+        <div className="mb-3" style={{ width: "50%" }}>
           <SearchBar onSearch={this.onSearch} />
         </div>
-        <ul>
-          {fetchingData
-            ? this.renderFetchingData()
-            : certificates.map((certificate) => (
-                <div className="form-check" key={certificate.name}>
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    onChange={handleCertificateSelect}
-                    value={certificate.name}
-                    checked={selectedCertificates.has(certificate.name)}
-                  />
-                  <label className="form-check-label" htmlFor="exampleCheck1">
-                    {certificate.name}
-                  </label>
-                </div>
-              ))}
-        </ul>
+        <div>
+          <ul style={{ "margin-left": "-7px" }}>
+            {fetchingData
+              ? this.renderFetchingData()
+              : certificates.map((certificate) => (
+                  <div className="form-check mb-1" key={certificate.name}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      onChange={handleCertificateSelect}
+                      value={certificate.name}
+                      checked={selectedCertificates.has(certificate.name)}
+                    />
+                    <label className="form-check-label" htmlFor="exampleCheck1">
+                      {certificate.name}
+                    </label>
+                  </div>
+                ))}
+          </ul>
+        </div>
         <div>{this.renderPagination()}</div>
       </React.Fragment>
     );

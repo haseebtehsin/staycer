@@ -9,6 +9,7 @@ import "./EmployeeCertificationItem.module.css";
 function EmployeeCertificationItem({
   certification: certificationFromProp,
   employeeId,
+  handleCertificationDelete,
 }) {
   const [certification, updateCertification] = useState(certificationFromProp);
 
@@ -25,7 +26,7 @@ function EmployeeCertificationItem({
         ...certification,
         issue_date: data.issue_date,
         expiry_date: data.expiry_date,
-        validated: data.validated,
+        tracking: data.tracking,
         picture: data.picture,
       };
       updateCertification(updatedCertificationItem);
@@ -40,17 +41,31 @@ function EmployeeCertificationItem({
     return <span className={`badge badge-${badgeClass}`}>{badgeText}</span>;
   };
 
-  const renderCertificationValidated = () => {
-    const isCertificationValidated = certification.validated;
-    const renderIcon = isCertificationValidated
-      ? "check-square"
-      : "times-circle";
-    const iconColor = isCertificationValidated ? "green" : "red";
+  const updateTracking = async () => {
+    const response = await http.patch(
+      apiEndPoints.userCertificationResource(employeeId, certification.id),
+      { tracking: !certification.tracking }
+    );
+
+    if (response.status === 200) {
+      updateCertification({
+        ...certification,
+        tracking: !certification.tracking,
+      });
+    }
+  };
+
+  const renderCertificationTracking = () => {
+    const isCertificationTracked = certification.tracking;
+    const renderIcon = isCertificationTracked ? "check-square" : "times-circle";
+    const iconColor = isCertificationTracked ? "green" : "red";
     return (
-      <i
-        className={`fa fa-${renderIcon}`}
-        style={{ color: `${iconColor}` }}
-      ></i>
+      <button className="btn" onClick={updateTracking}>
+        <i
+          className={`fa fa-2x fa-${renderIcon}`}
+          style={{ color: `${iconColor}` }}
+        ></i>
+      </button>
     );
   };
 
@@ -89,14 +104,23 @@ function EmployeeCertificationItem({
             </div>
           </div>
           <div>
-            <div styleName="certificationDescriptionField">Validated</div>
+            <div styleName="certificationDescriptionField">Tracking</div>
             <div styleName="certificationDescriptionValue">
-              {renderCertificationValidated()}
+              {renderCertificationTracking()}
             </div>
           </div>
         </div>
         <div className="col-2">{renderCertificationStatus()}</div>
-        <div className="col-1 offset-md-2">
+        <div className="col-1 offset-md-3">
+          <button
+            onClick={() => handleCertificationDelete(certification.id)}
+            type="button"
+            className="btn btn-danger"
+          >
+            <i className="fa fa-trash"></i>
+          </button>
+        </div>
+        <div className="col-1 ">
           <EditCertification
             certification={certification}
             employeeId={employeeId}
@@ -111,6 +135,7 @@ function EmployeeCertificationItem({
 EmployeeCertificationItem.propTypes = {
   certification: PropTypes.object,
   employeeId: PropTypes.number,
+  handleCertificationDelete: PropTypes.func.isRequired,
 };
 
 export default EmployeeCertificationItem;

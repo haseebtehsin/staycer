@@ -2,22 +2,28 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserAvatar from "react-user-avatar";
 import { Dropdown } from "semantic-ui-react";
+import { capitalize } from "../../../../utils/utils";
+
+import "./FilteredEmployees.module.css";
 
 const FilteredEmployees = ({
   filteredEmployees,
   projects,
   createSchedule,
-  scheduledEmployees,
-  datesValidated,
+  addSelectedEmployee,
+  deleteSelectedEmployee,
+  scheduleValidate,
+  updateProjectSelected,
+  selectedEmployees,
 }) => {
-  const [projectSelected, updateProjectSelected] = useState(new Map());
-  const saveProjectSelected = (data, employeeId) => {
-    const projectId = data.value;
-    projectSelected.set(employeeId, projectId);
-    updateProjectSelected(projectSelected);
+  const saveEmployeeSelected = (e) => {
+    const employeeId = e.target.value;
+    if (e.target.checked) {
+      addSelectedEmployee(employeeId);
+    } else deleteSelectedEmployee(employeeId);
   };
 
-  const renderProjectDropDown = (employeeId) => {
+  const renderProjectDropDown = () => {
     const projectOptions = projects.map((project) => ({
       key: project.id,
       value: project.id,
@@ -26,50 +32,53 @@ const FilteredEmployees = ({
     projectOptions.unshift({ key: "", value: "", text: "" });
     return (
       <React.Fragment>
-        <Dropdown
-          placeholder="Select Project"
-          fluid
-          search
-          selection
-          options={projectOptions}
-          onChange={(e, data) => saveProjectSelected(data, employeeId)}
-        />
+        <div
+          styleName="filteredEmployeesSelectionItemdiv"
+          style={{ width: "80%" }}
+        >
+          <Dropdown
+            placeholder="Select Project"
+            fluid
+            search
+            selection
+            options={projectOptions}
+            onChange={(e, data) => updateProjectSelected(data.value)}
+          />
+        </div>
       </React.Fragment>
     );
   };
 
-  const handleScheduleClick = (employeeId) => {
-    if (projectSelected.has(employeeId)) {
-      console.log("creating schedule");
-      console.log(projectSelected.get(employeeId));
-      createSchedule(employeeId, projectSelected.get(employeeId));
-    } else {
-      console.log("select a project first");
-    }
+  const handleScheduleClick = () => {
+    createSchedule();
   };
 
   const renderScheduleButton = (employeeId) => {
-    if (!datesValidated) {
-      return <span className="badge badge-danger">Select Dates</span>;
-    }
-    if (scheduledEmployees.has(employeeId)) {
-      return <span className="badge badge-success">Scheduled</span>;
-    } else {
-      return (
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => handleScheduleClick(employeeId)}
-          // disabled={!projectSelected.has(employeeId)}
-        >
-          Schedule
-        </button>
-      );
-    }
+    return (
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => handleScheduleClick()}
+        // disabled={!projectSelected.has(employeeId)}
+      >
+        Schedule
+      </button>
+    );
   };
 
   return (
     <React.Fragment>
+      {renderProjectDropDown()}
+      <div styleName="filteredEmployeesSelectionItemdiv">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => handleScheduleClick()}
+          disabled={!scheduleValidate()}
+        >
+          Schedule
+        </button>
+      </div>
       <table
         className="table-striped table-bordered table-sm"
         cellSpacing="0"
@@ -78,32 +87,45 @@ const FilteredEmployees = ({
         <thead>
           <tr>
             <th scope="col">Employee</th>
-            <th scope="col">Project</th>
-            <th scope="col">Schedule</th>
+            <th scope="col">Select</th>
           </tr>
         </thead>
         <tbody>
           {filteredEmployees.map((employee) => (
             <tr key={employee.id}>
               <td>
-                <div className="row">
-                  <div className="col-2">
+                <div className="row align-items-center">
+                  <div className="col-2 d-flex justify-content-start">
                     <UserAvatar
                       size="32"
                       colors={["#20c997"]}
-                      name={`${employee.profile.first_name} ${employee.profile.last_name}`}
+                      name={`${capitalize(
+                        employee.profile.first_name
+                      )} ${capitalize(employee.profile.last_name)}`}
                       src={employee.profile.picture}
                     />
                   </div>
-                  <div className="col-7">
+                  <div className="col-7 d-flex justify-content-start">
                     <NavLink to={`/employees/${employee.id}`}>
-                      {`${employee.profile.first_name} ${employee.profile.last_name}`}
+                      {`${capitalize(employee.profile.first_name)} ${capitalize(
+                        employee.profile.last_name
+                      )}`}
                     </NavLink>
                   </div>
                 </div>
               </td>
-              <td>{renderProjectDropDown(employee.id)}</td>
-              <td>{renderScheduleButton(employee.id)}</td>
+              <td>
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    onChange={saveEmployeeSelected}
+                    value={employee.id}
+                    // checked={true}
+                    checked={selectedEmployees.has(employee.id.toString())}
+                  />
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

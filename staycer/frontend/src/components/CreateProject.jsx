@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi, { schema } from "joi-browser";
+import { toast } from "react-toastify";
 import http from "../services/httpService";
 import apiEndPoints from "../config/apiEndPoints";
 import withModal from "./common/withModal";
@@ -30,13 +31,15 @@ class CreateProject extends Form {
     try {
       const response = await http.post(apiEndPoints.projectsCollection(), data);
       if (response.status === 201) {
+        toast.success("Project Added", { autoClose: 2000 });
         console.log("project created");
         this.props.handleModalClose();
         updateProjects();
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        console.log("Error creating project");
+        console.log("Error adding project");
+        toast.error("Error Creating Project", { autoClose: 2000 });
       }
     }
   };
