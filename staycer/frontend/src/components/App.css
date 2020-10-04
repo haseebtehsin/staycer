@@ -26,6 +26,7 @@ body {
 .topRowContent {
     max-width: 100%;
     /* flex: 0 0 80%; */
+    padding: 0;
 }
 
 .generalComponentDiv {
@@ -35,3 +36,9 @@ body {
     border-radius: 18px;
     box-shadow: -1px 0px 7px 2px rgba(171, 161, 171, 1);
 }
+
+/* .col-10,
+.col-11 {
+    flex-grow: 1;
+    transition: all 50000ms ease;
+} */

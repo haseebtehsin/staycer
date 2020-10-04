@@ -1,11 +1,24 @@
 import React, { Component } from "react";
 import "./TopBar.module.css";
-const TopBar = () => {
+const TopBar = ({ handleSideNavBarCollapse }) => {
   return (
     <React.Fragment>
-      <div styleName="topBar">
-        <div className="d-flex justify-content-end">
-          <div className="p-2">
+      <div>
+        <div
+          className="row justify-content-between align-items-center"
+          styleName="topBar"
+        >
+          <div className="col-2">
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                handleSideNavBarCollapse();
+              }}
+            >
+              <i className="fa fa-2x fa-bars"></i>
+            </a>
+          </div>
+          <div className="col-2">
             <div className="dropdown" styleName="settings">
               <button
                 className="btn btn-secondary dropdown-toggle"

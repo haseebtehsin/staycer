@@ -17,7 +17,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import "./SideNavBar.sass";
 import "./SideNavBar.css";
 // import "./SideNavBar.module.css";
-function SideNavBar() {
+function SideNavBar({ sideBarCollapse }) {
   const [activeMenu, updateActiveMenu] = useState("employees");
   const history = useHistory();
   const staycerLogoUrl = "/static/staycerLogo.png";
@@ -30,14 +30,29 @@ function SideNavBar() {
   };
   return (
     <React.Fragment>
-      <ProSidebar>
+      <ProSidebar collapsed={sideBarCollapse}>
         <SidebarHeader>
-          <div>
-            <NavLink to="/">
-              <div className="sideNavBarHeaderLogo">
-                <img src={staycerLogoUrl} width="60px" height="60px"></img>
+          <div className="row justify-content-center align-items-center">
+            <NavLink to="/" className="col-8">
+              <div className="row justify-content-center align-items-center">
+                <div
+                  className={
+                    !sideBarCollapse
+                      ? "col-6 sideNavBarHeaderLogo"
+                      : "col-12 sideNavBarHeaderLogo"
+                  }
+                >
+                  <img
+                    src={staycerLogoUrl}
+                    style={{ width: "100%", height: "100%" }}
+                  ></img>
+                </div>
+                {!sideBarCollapse ? (
+                  <div className="col-6 justify-content-start sideNavBarHeaderStaycerText">
+                    Staycer
+                  </div>
+                ) : null}
               </div>
-              <div className="sideNavBarHeaderStaycerText"> Staycer </div>
             </NavLink>
           </div>
         </SidebarHeader>
