@@ -8,3 +8,8 @@
 .settings {
     padding-right: 10px;
 }
+
+.userProfileImage {
+    height: 45px;
+    width: 45px;
+}

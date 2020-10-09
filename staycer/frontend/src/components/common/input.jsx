@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-const Input = ({ name, label, error, ...rest }) => {
+const Input = ({ name, label, error, labelCol, ...rest }) => {
   return (
     <div className="form-group row">
-      <label htmlFor={name} className="col-4 col-form-label">
+      <label htmlFor={name} className={`col-${labelCol} col-form-label`}>
         {label}
       </label>
       <div className="col-8">

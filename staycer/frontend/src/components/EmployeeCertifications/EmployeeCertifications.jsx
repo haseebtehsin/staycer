@@ -3,6 +3,7 @@ import EmployeeCertificationTable from "./EmployeeCertificationTable";
 import http from "../../services/httpService";
 import apiEndPoints from "../../config/apiEndPoints";
 import PropTypes from "prop-types";
+import NotFound from "../common/NotFound";
 import { toast } from "react-toastify";
 import CreateCertification from "../CreateCertification";
 
@@ -50,11 +51,7 @@ class EmployeeCertification extends Component {
   }
 
   renderEmptyCertification() {
-    return (
-      <div>
-        <i className="fa fa-5x  fa-search-minus"></i>
-      </div>
-    );
+    return <NotFound />;
   }
 
   handleCertificationDelete = async (certificationId) => {

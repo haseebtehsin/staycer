@@ -20,6 +20,7 @@ def _get_date_and_delta(UNTIL):
 
 
 class ExpiringCertificationsView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         certification_qs = Certification.objects.all()
@@ -35,6 +36,7 @@ class ExpiringCertificationsView(views.APIView):
 
 
 class TradeCountView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         trades = Trade.objects.all()

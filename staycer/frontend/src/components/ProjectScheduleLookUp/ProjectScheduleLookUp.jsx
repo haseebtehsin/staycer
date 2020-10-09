@@ -44,6 +44,7 @@ class ProjectScheduleLookUp extends LookUp {
 
   renderScheduleTable = () => {
     const { schedules } = this.state.data;
+    const { pageNumber } = this.state;
     return (
       <ProjectScheduleTable
         schedules={schedules}

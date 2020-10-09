@@ -5,8 +5,7 @@ import {
 } from "react-router-dom";
 import React from "react";
 
-ReactDOM.render( <
-  Router >
+ReactDOM.render( < Router >
   <
   App / >
   <

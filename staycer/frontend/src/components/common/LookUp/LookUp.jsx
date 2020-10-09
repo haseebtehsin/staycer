@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Pagination from "../Pagination";
-import Spinner from "react-bootstrap/Spinner";
 import "./LookUp.module.css";
 import NotFound from "../NotFound";
+import Spinner from "../../common/Spinner";
 
 //TODO: Handle Errors
 class LookUp extends Component {
@@ -46,16 +46,7 @@ class LookUp extends Component {
   }
 
   renderFetchingData() {
-    return (
-      <div
-        className="d-flex  flex-column justify-content-center align-items-center"
-        style={{ height: "100%" }}
-      >
-        <React.Fragment>
-          <Spinner animation="border" />
-        </React.Fragment>
-      </div>
-    );
+    return <Spinner />;
   }
 
   renderPagination() {

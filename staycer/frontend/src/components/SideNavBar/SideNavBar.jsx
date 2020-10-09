@@ -35,16 +35,10 @@ function SideNavBar({ sideBarCollapse }) {
           <div className="row justify-content-center align-items-center">
             <NavLink to="/" className="col-8">
               <div className="row justify-content-center align-items-center">
-                <div
-                  className={
-                    !sideBarCollapse
-                      ? "col-6 sideNavBarHeaderLogo"
-                      : "col-12 sideNavBarHeaderLogo"
-                  }
-                >
+                <div className={`p-0 ${sideBarCollapse ? "col-12" : "col-6"}`}>
                   <img
                     src={staycerLogoUrl}
-                    style={{ width: "100%", height: "100%" }}
+                    className="sideNavBarHeaderLogo"
                   ></img>
                 </div>
                 {!sideBarCollapse ? (

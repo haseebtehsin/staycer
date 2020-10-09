@@ -12,6 +12,7 @@ django-phone-field = "*"
 django-filter = "*"
 drf-flex-fields = "*"
 pillow = "*"
+django-rest-knox = "*"
 
 [requires]
 python_version = "3.8"

@@ -7,13 +7,18 @@
 }
 
 .pro-item-content {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 400;
     color: white;
 }
 
-.sideNavBarHeaderLogo .img {
-    padding-left: 20px;
+.pro-sidebar .pro-menu .pro-menu-item>.pro-inner-item {
+    padding: 6px 20px 8px 18px;
+}
+
+.sideNavBarHeaderLogo {
+    padding: 0;
+    margin: 0;
     width: 60px;
     height: 60px;
 }

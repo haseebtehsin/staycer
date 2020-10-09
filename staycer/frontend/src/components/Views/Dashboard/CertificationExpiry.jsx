@@ -10,6 +10,7 @@ class CertificationExpiry extends Component {
     super(props);
     this.totalMonths = 6;
     this.state = {
+      isLoading: true,
       expiringCertificationData: [],
       data: [],
     };
@@ -42,33 +43,8 @@ class CertificationExpiry extends Component {
       });
       console.log("got certification expirty data");
     }
+    this.setState({ isLoading: false });
   };
-
-  //   const data = [
-  //     {
-  //       month: "Jan",
-  //       expiring: 5,
-  //     },
-  //     {
-  //       month: "Feb",
-  //       expiring: 10,
-  //     },
-  //     {
-  //       month: "Mar",
-  //       expiring: 15,
-  //     },
-  //     {
-  //       month: "Apr",
-  //       expiring: 7,
-  //     },
-  //     {
-  //       month: "May",
-  //       expiring: 22,
-  //     },
-  //     {
-  //       expiring: 55,
-  //     },
-  //   ];
 
   componentDidMount() {
     this.fetchCertificationExpiryData();
@@ -115,6 +91,7 @@ class CertificationExpiry extends Component {
   };
 
   render() {
+    const { isLoading } = this.state;
     return (
       <React.Fragment>
         <h3>Expiring Certifications</h3>

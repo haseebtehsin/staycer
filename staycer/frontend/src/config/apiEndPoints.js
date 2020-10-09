@@ -1,6 +1,9 @@
 const baseURL = "http://127.0.0.1:8000/";
 const apiVersion = "api/v1/";
 const apiEndPoints = {
+  login: () => `${baseURL}${apiVersion}auth/login/`,
+  logout: () => `${baseURL}${apiVersion}auth/logout/`,
+  authUser: () => `${baseURL}${apiVersion}auth/user/`,
   usersCollection: () => `${baseURL}${apiVersion}users/`,
   usersResource: (id) => `${baseURL}${apiVersion}users/${id}/`,
   usersProfileResource: (id) => `${baseURL}${apiVersion}users/${id}/profile/`,

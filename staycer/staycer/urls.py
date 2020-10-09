@@ -6,11 +6,13 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    # path('', include('knox.urls')),
     path('', include('frontend.urls')),
     path('', include('user.urls')),
     path('', include('certificate.urls')),
     path('', include('project.urls')),
     path('', include('metrics.urls')),
+    path('', include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('favicon.ico')))

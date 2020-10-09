@@ -61,6 +61,10 @@ class UserManager(BaseUserManager):
         )
         user.is_staff = True
         user.is_superuser = True
+        # TODO: SU should be admin role
+        # Keeping it as it is for now to
+        # avoid circular dependency
+        # user.role = User.ADMIN
         user.save(using=self._db)
         return user
 
@@ -68,6 +72,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     HUMAN_RESOURCE = "HR"
     WORKER = "WK"
+    ADMIN = "AD"
     ROLE_CHOICES = (
         (HUMAN_RESOURCE, 'Human_Resource'),
         (WORKER, 'Worker'),

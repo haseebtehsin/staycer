@@ -9,9 +9,7 @@ from django.db.models import Count
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
     filter_backends = [filters.SearchFilter,
@@ -24,9 +22,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class ProjectScheduleViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ScheduleSerializer
 
     filter_backends = [filters.SearchFilter,

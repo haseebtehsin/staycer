@@ -4,6 +4,7 @@ import apiEndPoints from "../../config/apiEndPoints";
 import http from "../../services/httpService";
 import SearchBar from "../common/SearchBar/SearchBar";
 import EmployeeScheduleTable from "./EmployeeScheduleTable";
+import NotFound from "../common/NotFound";
 
 class EmployeeScheduleLookUp extends LookUp {
   constructor(props) {
@@ -41,12 +42,11 @@ class EmployeeScheduleLookUp extends LookUp {
     this.setFetching(false);
   }
 
-  render() {
+  renderScheduleTable = () => {
     const { schedules } = this.state.data;
     const { fetchingData, pageNumber } = this.state;
     return (
       <React.Fragment>
-        <h2>Schedule</h2>
         <div>
           <SearchBar onSearch={this.onSearch} />
         </div>
@@ -59,6 +59,18 @@ class EmployeeScheduleLookUp extends LookUp {
           />
         )}
         <div>{this.renderPagination()}</div>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    const { schedules } = this.state.data;
+    const { fetchingData, pageNumber } = this.state;
+
+    return (
+      <React.Fragment>
+        <h2>Schedule</h2>
+        {schedules.length === 0 ? <NotFound /> : this.renderScheduleTable()}
       </React.Fragment>
     );
   }

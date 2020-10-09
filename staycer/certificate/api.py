@@ -10,9 +10,7 @@ class CertificateViewSet(viewsets.ModelViewSet):
     # TODO: allow the ability to get all certificates
     # so that we are not limited by page size only
     queryset = Certificate.objects.filter()
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CertificateSerializer
     filterset_fields = '__all__'
     filter_backends = [filters.SearchFilter,
@@ -22,9 +20,7 @@ class CertificateViewSet(viewsets.ModelViewSet):
 
 class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Certification.objects.filter(tracking=True)
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CertificationSerializer
     filter_class = CertificationFilter
     filter_backends = [filters.SearchFilter,
@@ -34,9 +30,7 @@ class CertificationViewSet(viewsets.ReadOnlyModelViewSet):
 
 class UserCertificationViewSet(viewsets.ModelViewSet):
     serializer_class = CertificationSerializer
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter,
                        django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['id', 'expiry_date']
@@ -57,17 +51,13 @@ class UserCertificationViewSet(viewsets.ModelViewSet):
 
 
 class InstituteViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = InstituteSerializer
     queryset = Institute.objects.all()
 
 
 class InstituteCertificateViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CertificateSerializer
 
     def get_queryset(self):
@@ -76,17 +66,13 @@ class InstituteCertificateViewSet(viewsets.ModelViewSet):
 
 
 class TradeViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = TradeSerializer
     queryset = Trade.objects.all()
 
 
 class TradeCertificateViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CertificateSerializer
 
     def get_queryset(self):

@@ -11,9 +11,7 @@ from django.db.models import Count
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(role=User.WORKER)
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter,
                        django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
@@ -40,9 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class PositionViewSet(viewsets.ModelViewSet):
     queryset = Position.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PositionSerializer
 
 
@@ -50,9 +46,7 @@ class PositionViewSet(viewsets.ModelViewSet):
 # Since we only want to list using this view
 class UserScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduleSerializer
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter,
                        django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter]
     search_fields = ['project__name']
@@ -77,9 +71,7 @@ class UserScheduleViewSet(viewsets.ModelViewSet):
 # might want to change this for creation only
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ScheduleSerializer
 
     # this is to support bulk creation
