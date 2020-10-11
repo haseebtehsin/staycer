@@ -18,7 +18,7 @@ class ProjectScheduleLookUp extends LookUp {
 
   async fetchData(pageNumber) {
     this.setFetching(true);
-    const timeoutResponse = await this.timeout(200);
+    // const timeoutResponse = await this.timeout(200);
     const { id: projectId } = this.props.match.params;
     this.setFetching;
     let endpoint = new URL(apiEndPoints.projectScheduleCollection(projectId));

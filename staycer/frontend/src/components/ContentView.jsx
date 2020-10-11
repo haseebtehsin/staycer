@@ -14,7 +14,7 @@ const ContentView = () => {
         <Route path="/certification" component={Certification} />
         <Route path="/schedule" component={Schedule} />
         <Route path="/project" component={Project} />
-        <Redirect to="/employees" />
+        <Redirect to="/dashboard" />
       </Switch>
     </React.Fragment>
   );

@@ -149,8 +149,8 @@ class Position(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    first_name = models.CharField(_('first_name'), max_length=30, blank=True)
+    last_name = models.CharField(_('last_name'), max_length=150, blank=True)
     phone = PhoneField(blank=True, help_text='Contact phone number')
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True)

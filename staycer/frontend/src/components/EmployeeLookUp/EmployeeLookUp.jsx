@@ -27,7 +27,7 @@ class EmployeeLookUp extends LookUp {
     this.setFetching(true);
     // This line is just to test spinner for development
     // must remove in prod
-    const timeoutResponse = await this.timeout(100);
+    // const timeoutResponse = await this.timeout(100);
     let endpoint = new URL(apiEndPoints.usersCollection());
     const { searchText } = this.state;
     if (searchText) {

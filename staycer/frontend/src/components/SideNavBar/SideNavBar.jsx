@@ -18,7 +18,7 @@ import "./SideNavBar.sass";
 import "./SideNavBar.css";
 // import "./SideNavBar.module.css";
 function SideNavBar({ sideBarCollapse }) {
-  const [activeMenu, updateActiveMenu] = useState("employees");
+  const [activeMenu, updateActiveMenu] = useState("dashboard");
   const history = useHistory();
   const staycerLogoUrl = "/static/staycerLogo.png";
   const handleClick = (menuItem) => {

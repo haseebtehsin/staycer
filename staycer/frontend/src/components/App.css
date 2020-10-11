@@ -24,7 +24,7 @@ body {
 }
 
 .topRowContent {
-    max-width: 100%;
+    width: 100%;
     /* flex: 0 0 80%; */
     padding: 0;
 }
